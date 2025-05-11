@@ -1,248 +1,731 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Rockstar Landing</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP Animation Demo with Pricedown Font</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <style>
+        /* Basic Reset & Body */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- Remixicon -->
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet"/>
+        body {
+            font-family: sans-serif; /* Default fallback */
+            background-color: #000;
+            color: white;
+            overflow-x: hidden;
+        }
 
-  <style>
-    @font-face {
-      font-family: "pricedown";
-      src: url("./pricedown.otf") format("opentype");
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Font Face for Pricedown */
+        @font-face {
+            font-family: 'Pricedown';
+            src: url('./pricedown.otf') format('opentype'); /* Make sure pricedown.otf is in the same folder or adjust path */
+            font-weight: normal;
+            font-style: normal;
+        }
 
-    html, body {
-      width: 100%;
-      height: 100%;
-      font-family: "pricedown", sans-serif;
-      background-color: black;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
+        @font-face {
+            font-family: 'Helvetica Now Display';
+            /* src: url('path/to/HelveticaNowDisplay-Regular.woff2') format('woff2'); */ /* User needs to provide this font */
+            font-weight: normal;
+        }
 
-    /* hide main until mask is done */
-    .main { display: none; }
+        /* Helper for flex */
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .flex-col { flex-direction: column; }
+        .gap-3 { gap: 0.75rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-7 { gap: 1.75rem; }
+        .gap-\[5px\] { gap: 5px; }
 
-    .landing { width: 100%; height: 100vh; position: relative; }
 
-    .navbar {
-      position: absolute; top: 0; left: 0;
-      width: 100%; padding: 2vw; z-index: 10;
-    }
-    .logo { display: flex; align-items: center; gap: 1vw; }
-    .lines { display: flex; flex-direction: column; gap: 5px; }
-    .line { height: 8px; background: white; width: 60px; }
-    .line.small { width: 32px; }
-    .line.tiny { width: 20px; }
-    .logo h3 { font-size: 2.25rem; color: white; }
+        /* SVG Intro Animation Styles */
+        .svg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #000; /* Matches React version's bg-[#000] */
+            display: flex; /* Matches React version's flex */
+            align-items: center; /* Matches React version's items-center */
+            justify-content: center; /* Matches React version's justify-center */
+        }
+        
+        .svg-container svg {
+            width: 100%; /* Ensure SVG takes up the container space if needed, viewBox handles sizing */
+            height: 100%;
+        }
 
-    .imagesdiv { width: 100%; height: 100%; position: relative; }
-    .imagesdiv img {
-      position: absolute; width: 100%; height: 100%;
-      object-fit: cover;
-    }
-    .sky    { transform: scale(1.5) rotate(-20deg); }
-    .bg-img { transform: scale(1.8) rotate(-3deg); }
+        .vi-mask-group text { /* Style for the "VI" text within the mask */
+            font-family: "Arial Black", Arial, sans-serif; /* Matches React's fontFamily="Arial Black" */
+        }
 
-    .text {
-      position: absolute;
-      top: 10%; left: 50%;
-      transform: translateX(-50%) scale(1.4) rotate(-10deg);
-      display: flex; flex-direction: column; gap: 1vw;
-      z-index: 5;
-    }
-    .text h1 {
-      font-size: 10vw; color: white;
-      text-transform: uppercase; line-height: 1;
-    }
-    .text h1:nth-child(1),
-    .text h1:nth-child(3) { margin-left: -5vw; }
-    .text h1:nth-child(2) { margin-left: 5vw; }
+        /* Main Content Area */
+        .main {
+            width: 100%;
+            transform: rotate(-10deg) scale(1.7); /* Initial state for GSAP animation, matches React: rotate-[-10deg] scale-[1.7] */
+            display: none; /* Initially hidden, GSAP will show it */
+        }
 
-    .character {
-      position: absolute;
-      top: 15%;
-      left: 50%;
-      transform: translateX(-50%) scale(0.6);
-      transform-origin: top center;
-      z-index: 6;
-      pointer-events: none;
-    }
+        .landing {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background-color: black;
+        }
 
-    .btmbar {
-      position: absolute;
-      bottom: 0; width: 100%;
-      padding: 3vw 2vw;
-      background: linear-gradient(to top, black, transparent);
-      display: flex; align-items: center;
-      justify-content: center;
-      color: white; z-index: 5;
-      cursor: pointer;
-    }
-    .btmbar .left {
-      display: flex; align-items: center; gap: 1vw;
-    }
-    .btmbar h3 {
-      font-size: 1.25rem; font-family: Arial, sans-serif;
-    }
-    .btmbar .ps5 { height: 55px; }
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10; /* Matches React z-[10] */
+            width: 100%;
+            padding: 2.5rem; /* Matches React py-10 px-10 ( Tailwind 10 = 2.5rem ) */
+        }
 
-    .section {
-      width: 100%; height: 100vh;
-      background-color: black; color: white;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .cntnr { display: flex; width: 90%; height: 80%; }
-    .limg { flex: 1; position: relative; }
-    .limg img {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%) scale(1.3);
-    }
-    .rg {
-      width: 30%; padding: 5vw 2vw;
-      display: flex; flex-direction: column; justify-content: center;
-    }
-    .rg h1 { font-size: 4.5rem; line-height: 1; }
-    .rg p {
-      font-size: 1rem; font-family: Arial, sans-serif;
-      margin-top: 1rem;
-    }
-    .rg button {
-      margin-top: 2.5rem; padding: 1rem 2.5rem;
-      font-size: 2rem; background-color: #facc15;
-      color: black; border: none; cursor: pointer;
-      font-family: inherit;
-    }
-  </style>
+        .logo {
+            display: flex;
+            gap: 1.75rem; /* Matches React gap-7 ( Tailwind 7 = 1.75rem ) */
+        }
+
+        .lines {
+            display: flex;
+            flex-direction: column;
+            gap: 5px; /* Matches React gap-[5px] */
+        }
+
+        .line {
+            background-color: white;
+            height: 0.5rem; /* Matches React h-2 ( Tailwind 2 = 0.5rem ) */
+        }
+        /* Widths match React: w-15 (3.75rem), w-8 (2rem), w-5 (1.25rem) */
+        .line:nth-child(1) { width: 3.75rem; }
+        .line:nth-child(2) { width: 2rem; }
+        .line:nth-child(3) { width: 1.25rem; }
+
+        .navbar h3 {
+            font-family: 'Pricedown', 'Arial Black', sans-serif; /* Assuming Pricedown is desired */
+            font-size: 2.25rem; /* Matches React text-4xl (Tailwind default 4xl=2.25rem, can vary) - Adjust if Pricedown needs different sizing */
+            margin-top: -8px; /* Matches React -mt-[8px] */
+            line-height: 1; /* Matches React leading-none */
+            color: white;
+            letter-spacing: 1px; /* Added for style, not in React example explicitly */
+        }
+
+        .imagesdiv {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .imagesdiv img, .imagesdiv .text {
+            position: absolute;
+            object-fit: cover;
+        }
+
+        .sky {
+            /* Matches React: scale-[1.5] rotate-[-20deg] top-0 left-0 w-full h-full object-cover */
+            transform: scale(1.5) rotate(-20deg);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .bg {
+            /* Matches React: scale-[1.8] rotate-[-3deg] top-0 left-0 w-full h-full object-cover */
+            transform: scale(1.8) rotate(-3deg);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .text {
+            /* Matches React: text-white flex flex-col gap-3 absolute top-20 left-1/2 -translate-x-1/2 scale-[1.4] rotate-[-10deg] */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem; /* Matches React gap-3 (0.75rem) */
+            position: absolute;
+            top: 5rem; /* Matches React top-20 (5rem) */
+            left: 50%;
+            transform: translateX(-50%) scale(1.4) rotate(-10deg); /* Initial state for GSAP */
+        }
+
+        .text h1 {
+            font-family: 'Pricedown', Impact, sans-serif;
+            font-size: 11rem; /* React uses text-[12rem] - Pricedown might render differently, adjust if needed */
+            line-height: 0.9; /* React uses leading-none. Adjusted for Pricedown. */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        /* Matches React: -ml-40 ( -10rem ), ml-20 ( 5rem ), -ml-40 ( -10rem ) */
+        /* These are equivalent to -25rem, -15rem, -25rem if 1rem=16px and tailwind config is default */
+        /* React: -ml-[25rem], -ml-[15rem], -ml-[25rem] */
+        .text h1:nth-child(1) { margin-left: -25rem; }
+        .text h1:nth-child(2) { margin-left: -15rem; }
+        .text h1:nth-child(3) { margin-left: -25rem; }
+
+
+        .character {
+            /* Matches React: character -bottom-[150%] left-1/2 -translate-x-1/2 scale-[3] rotate-[-20deg] */
+            position: absolute;
+            bottom: -150%; /* Initial state for GSAP animation */
+            left: 50%;
+            transform: translateX(-50%) scale(3) rotate(-20deg); /* Initial state for GSAP */
+            /* GSAP animates to: scale: 0.6, x: "0%", bottom: "-50%", rotate: 0 */
+        }
+
+        .btmbar {
+            color: white;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            /* Matches React: py-15 (3.75rem) px-10 (2.5rem) bg-gradient-to-t from-black to-transparent */
+            padding: 3.75rem 2.5rem;
+            background-image: linear-gradient(to top, black, transparent);
+        }
+
+        .btmbar .scroll-down-trigger { /* This is the flex container in HTML for icon and text */
+            display: inline-flex; /* Matches React usage pattern for the inner flex */
+            gap: 1rem; /* Matches React gap-4 (1rem) */
+            align-items: center; /* Matches React items-center */
+            cursor: pointer;
+        }
+
+        .btmbar i {
+            font-size: 2.25rem; /* Matches React text-4xl (2.25rem) */
+        }
+
+        .btmbar h3 {
+            font-size: 1.25rem; /* Matches React text-xl (1.25rem) */
+            font-family: 'Helvetica Now Display', sans-serif; /* Matches React font-[Helvetica_Now_Display] */
+        }
+
+        .btmbar img { /* PS5 logo */
+            /* Matches React: absolute h-[55px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 */
+            position: absolute;
+            height: 55px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Second Section Styles */
+        .second-section { /* In React, this is a div with: w-full h-screen flex items-center justify-center bg-black */
+            width: 100%;
+            min-height: 100vh; /* Using min-height instead of h-screen for flexibility */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: black;
+            padding: 2rem 0; /* Added padding for content spacing */
+        }
+
+        .cntnr { /* Matches React: cntnr flex text-white w-full h-[80%] */
+            display: flex;
+            color: white;
+            width: 100%;
+            /* height: 80%; */ /* Max-height might be better or let content define height */
+            max-width: 1280px; /* Common max-width, adjust as needed */
+            padding: 0 1rem; /* Horizontal padding */
+        }
+
+        .limg { /* Matches React: limg relative w-1/2 h-full */
+            position: relative;
+            width: 50%;
+            /* height: 100%; */ /* Let content or aspect ratio define height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .limg img {
+            /* Matches React: absolute scale-[1.3] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 */
+            position: relative; /* Simpler than absolute centering if parent is flex centered */
+            transform: scale(1.3);
+            max-width: 100%;
+            height: auto;
+        }
+
+        .rg { /* Matches React: rg w-[30%] py-30 (7.5rem) */
+            width: 45%; /* Adjusted from 30% for better balance with 50% limg if there's gap */
+            margin-left: 5%;
+            padding: 7.5rem 0;
+        }
+
+        .rg h1 {
+            font-family: 'Pricedown', Impact, sans-serif;
+            font-size: 5rem; /* Matches React text-8xl (could be 6rem or more depending on Tailwind config) */
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .rg p {
+            /* Matches React: mt-10 text-xl font-[Helvetica_Now_Display] */
+            margin-top: 2.5rem; /* mt-10 = 2.5rem */
+            font-size: 1.25rem; /* text-xl = 1.25rem */
+            font-family: 'Helvetica Now Display', sans-serif;
+            line-height: 1.6;
+        }
+        .rg p.mt-3 { margin-top: 0.75rem; } /* Matches React mt-3 (0.75rem) */
+
+        .rg button {
+            font-family: 'Pricedown', Impact, sans-serif;
+            background-color: #F59E0B; /* Matches React bg-yellow-500 */
+            /* Matches React: px-10 (2.5rem) py-10 (2.5rem) text-black mt-10 (2.5rem) text-4xl (2.25rem) */
+            padding: 2.5rem;
+            color: black;
+            margin-top: 2.5rem;
+            font-size: 2.25rem;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* START OF RESPONSIVE STYLES */
+
+        /* Tablet and larger mobile (e.g., up to 1024px) */
+        @media (max-width: 1024px) {
+            .navbar {
+                padding: 2rem;
+            }
+            .navbar h3 {
+                font-size: 2rem;
+            }
+
+            .text h1 {
+                font-size: 8rem; /* Adjusted from 11rem */
+            }
+            .text h1:nth-child(1) { margin-left: -18rem; }
+            .text h1:nth-child(2) { margin-left: -10rem; }
+            .text h1:nth-child(3) { margin-left: -18rem; }
+            
+            .rg {
+                padding: 5rem 0;
+            }
+            .rg h1 {
+                font-size: 4rem;
+            }
+            .rg p {
+                font-size: 1.1rem;
+                margin-top: 2rem;
+            }
+            .rg button {
+                font-size: 2rem;
+                padding: 2rem;
+                margin-top: 2rem;
+            }
+
+            .limg {
+                width: 45%;
+            }
+            .rg {
+                width: 50%;
+            }
+        }
+
+        /* Mobile (e.g., up to 767px) */
+        @media (max-width: 767px) {
+            .navbar {
+                padding: 1.5rem;
+            }
+            .navbar h3 {
+                font-size: 1.6rem;
+                margin-top: -4px;
+            }
+            .logo {
+                gap: 1rem;
+            }
+            .lines {
+                gap: 4px;
+            }
+            .line {
+                height: 0.4rem;
+            }
+            .line:nth-child(1) { width: 2.5rem; }
+            .line:nth-child(2) { width: 1.5rem; }
+            .line:nth-child(3) { width: 1rem; }
+
+            .text {
+                top: 3rem; /* Adjust vertical position */
+                gap: 0.5rem;
+                 /* transform: translateX(-50%) scale(1.2) rotate(-10deg); GSAP animates from this, so fine */
+            }
+            .text h1 {
+                font-size: 4rem; /* Significantly smaller for mobile */
+                line-height: 1;
+            }
+            .text h1:nth-child(1) { margin-left: -5rem; }
+            .text h1:nth-child(2) { margin-left: -2rem; }
+            .text h1:nth-child(3) { margin-left: -4rem; }
+
+
+            .btmbar {
+                padding: 2rem 1rem;
+                display: flex; /* Enable flex for stacking */
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem; /* Space between scroll text and PS5 logo */
+            }
+            .btmbar .scroll-down-trigger {
+                /* order: 1; Default order is fine as it's first in HTML */
+            }
+            .btmbar i {
+                font-size: 1.8rem;
+            }
+            .btmbar h3 {
+                font-size: 0.9rem;
+            }
+            .btmbar img { /* PS5 logo */
+                position: relative; /* Override absolute positioning */
+                top: auto;
+                left: auto;
+                transform: none; /* Reset transform */
+                height: 35px;
+                margin-top: 0.5rem; /* Add some space if needed */
+                /* order: 2; Not needed if natural flow is desired */
+            }
+
+            .second-section {
+                padding: 3rem 0;
+                min-height: auto; /* Allow content to define height */
+            }
+            .cntnr {
+                flex-direction: column;
+                align-items: center;
+                padding: 0 1.5rem; /* Slightly more padding for cntnr */
+                /* height: auto; */
+            }
+            .limg {
+                width: 90%;
+                max-width: 350px; /* Max width for image on mobile */
+                margin-bottom: 2rem;
+            }
+            .limg img {
+                transform: scale(1.1); /* Adjust scale if needed */
+            }
+            .rg {
+                width: 90%;
+                margin-left: 0;
+                padding: 1rem 0;
+                text-align: center;
+            }
+            .rg h1 {
+                font-size: 2.2rem; /* Further reduce for mobile */
+                line-height: 1.2;
+            }
+            .rg p {
+                font-size: 0.9rem;
+                margin-top: 1rem;
+                line-height: 1.5;
+            }
+            .rg p.mt-3 { 
+                margin-top: 0.75rem; 
+            }
+            .rg button {
+                font-size: 1.4rem;
+                padding: 1rem 1.5rem;
+                margin-top: 1.5rem;
+                width: auto; /* Or display: inline-block for natural width */
+                display: inline-block;
+            }
+        }
+
+        /* Smaller Mobile (e.g., up to 480px) */
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 1rem;
+            }
+            .navbar h3 {
+                font-size: 1.4rem;
+            }
+             .line:nth-child(1) { width: 2rem; }
+             .line:nth-child(2) { width: 1.2rem; }
+             .line:nth-child(3) { width: 0.8rem; }
+
+
+            .text {
+                top: 2.5rem;
+                gap: 0.25rem;
+            }
+            .text h1 {
+                font-size: 3rem; /* Even smaller for very narrow screens */
+            }
+            .text h1:nth-child(1) {margin-top: 5rem; font-size: 100px; margin-left: -3rem; }
+            .text h1:nth-child(2) { margin-left: -1rem;font-size: 100px; }
+            .text h1:nth-child(3) { margin-left: -3rem; font-size: 100px;}
+
+
+            .btmbar {
+                padding: 1.5rem 1rem;
+            }
+            .btmbar img { /* PS5 logo */
+                height: 30px;
+            }
+            .btmbar h3 {
+                font-size: 0.8rem;
+            }
+
+            .rg h1 {
+                font-size: 2rem;
+            }
+            .rg p {
+                font-size: 0.85rem;
+            }
+            .rg button {
+                font-size: 1.2rem;
+                padding: 0.8rem 1.2rem;
+            }
+            .second-section {
+                padding: 2rem 0;
+            }
+        }
+        /* END OF RESPONSIVE STYLES */
+
+    </style>
 </head>
 <body>
 
-  <!-- SVG MASK -->
-  <div class="svg">
+    <!-- SVG Mask Overlay -->
+  <div class="svg-container">
     <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
       <defs>
         <mask id="viMask">
-          <rect width="100%" height="100%" fill="black"/>
+          <rect width="100%" height="100%" fill="black" />
           <g class="vi-mask-group">
             <text x="50%" y="50%" font-size="250"
-                  text-anchor="middle"
-                  fill="white"
-                  dominant-baseline="middle"
-                  font-family="Arial Black">
+                  text-anchor="middle" dominant-baseline="middle"
+                  fill="white" font-family="Arial Black">
               VI
             </text>
           </g>
         </mask>
       </defs>
-      <image href="./bg.png"
+      <image href="bg.png"
              width="100%" height="100%"
              preserveAspectRatio="xMidYMid slice"
              mask="url(#viMask)" />
     </svg>
   </div>
 
-  <!-- MAIN CONTENT -->
-  <div class="main">
-    <div class="landing">
-      <div class="navbar">
-        <div class="logo">
-          <div class="lines">
-            <div class="line"></div>
-            <div class="line small"></div>
-            <div class="line tiny"></div>
-          </div>
-          <h3>Rockstar</h3>
-        </div>
-      </div>
+    <div class="main"> <!-- Corresponds to React's div className="main ..." -->
+        <div class="landing">
+            <div class="navbar">
+                <div class="logo items-center"> <!-- Added items-center for better alignment if needed -->
+                    <div class="lines">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
+                    <h3>Rockstar</h3>
+                </div>
+            </div>
 
-      <div class="imagesdiv">
-        <img class="sky"    src="./sky.png"   alt="sky"/>
-        <img class="bg-img" src="./bg.png"    alt="background"/>
-        <div class="text">
-          <h1>grand</h1>
-          <h1>theft</h1>
-          <h1>auto</h1>
-        </div>
-        <img class="character" src="./girlbg.png" alt="character"/>
-      </div>
+            <div class="imagesdiv">
+                <img class="sky" src="./sky.png" alt="Sky background" />
+                <img class="bg" src="./bg.png" alt="City background" />
+                <div class="text">
+                    <h1>grand</h1>
+                    <h1>theft</h1>
+                    <h1>auto</h1>
+                </div>
+                <img class="character" src="./girlbg.png" alt="Character" />
+            </div>
 
-      <div class="btmbar">
-        <div class="left">
-          <i class="ri-arrow-down-line"></i>
-          <h3>Scroll Down</h3>
-          <img class="ps5" src="./ps5.png" alt="ps5"/>
+            <div class="btmbar">
+                <div class="scroll-down-trigger flex items-center"> <!-- Added items-center -->
+                    <i class="ri-arrow-down-line"></i>
+                    <h3>Scroll Down</h3>
+                </div>
+                <img src="./ps5.png" alt="PS5 Logo" />
+            </div>
         </div>
-      </div>
+
+        <div class="second-section">
+            <div class="cntnr">
+                <div class="limg">
+                    <img src="./imag.png" alt="Promotional image" />
+                </div>
+                <div class="rg">
+                    <h1>Still Running,</h1>
+                    <h1>Not Hunting</h1>
+                    <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                        Distinctio possimus, asperiores nam, omnis inventore nesciunt
+                        a architecto eveniet saepe, ducimus necessitatibus at
+                        voluptate.
+                    </p>
+                    <p class="mt-3">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. At
+                        eius illum fugit eligendi nesciunt quia similique velit
+                        excepturi soluta tenetur illo repellat consectetur laborum
+                        eveniet eaque, dicta, hic quisquam? Ex cupiditate ipsa nostrum
+                        autem sapiente.
+                    </p>
+                    <p> <!-- Note: React code has this p with mt-10, original HTML did not. Added mt-10 based on React -->
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. At
+                        eius illum fugit eligendi nesciunt quia similique velit
+                        excepturi soluta tenetur illo repellat consectetur laborum
+                        eveniet eaque, dicta, hic quisquam? Ex cupiditate ipsa nostrum
+                        autem sapiente.
+                    </p>
+                    <button>Download Now</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="section">
-      <div class="cntnr">
-        <div class="limg">
-          <img src="./imag.png" alt="image"/>
-        </div>
-        <div class="rg">
-          <h1>Still Running,</h1>
-          <h1>Not Hunting</h1>
-          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit...</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-          <button>Download Now</button>
-        </div>
-      </div>
-    </div>
-  </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+    //   GSAP code has been kept as is.
+    //   The responsiveness is handled by CSS media queries.
+    //   No changes needed to the JavaScript for responsiveness in this case.
 
-  <!-- GSAP -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
-  <script>
-    const svgEl  = document.querySelector('.svg');
-    const mainEl = document.querySelector('.main');
-    const tl     = gsap.timeline();
+    document.addEventListener("DOMContentLoaded", function () {
+        const svgContainer = document.querySelector(".svg-container");
+        const mainContent = document.querySelector(".main");
+        const scrollDownButton = document.querySelector('.btmbar .scroll-down-trigger');
+        const secondSection = document.querySelector('.second-section');
 
-    // Mask intro
-    tl.to('.vi-mask-group', {
-      rotate: 10,
-      duration: 2,
-      ease: "power4.inOut",
-      transformOrigin: "50% 50%"
-    }).to('.vi-mask-group', {
-      scale: 10,
-      duration: 2,
-      delay: -1.8,
-      ease: "expo.inOut",
-      transformOrigin: "50% 50%",
-      opacity: 0,
-      onUpdate() {
-        if (this.progress() >= 0.9) {
-          svgEl.remove();
-          mainEl.style.display = 'block';
-          this.kill();
-          runMainAnimations();
+        let mainAnimationStarted = false; 
+
+        function animateMainContent() {
+            if (mainAnimationStarted) return; 
+            mainAnimationStarted = true;
+
+            gsap.to(".main", {
+                scale: 1,
+                rotate: 0,
+                duration: 2,
+                ease: "Expo.easeInOut",
+                // display: "block" // GSAP will animate if display is already block
+            });
+
+            gsap.to(".sky", {
+                scale: 1.1, // Final animated scale
+                rotate: 0,
+                duration: 2,
+                delay: 0.2,
+                ease: "Expo.easeInOut",
+            });
+
+            gsap.to(".bg", {
+                scale: 1.1, // Final animated scale
+                rotate: 0,
+                duration: 2,
+                delay: 0.2,
+                ease: "Expo.easeInOut",
+            });
+
+            gsap.to(".character", {
+                scale: 0.6, // Final animated scale
+                x: "0%",
+                bottom: "-50%", // Final position
+                rotate: 0,
+                duration: 2,
+                delay: 0.2,
+                ease: "Expo.easeInOut",
+            });
+
+            gsap.to(".text", {
+                scale: 1, // Final animated scale
+                rotate: 0,
+                duration: 2,
+                delay: 0.2,
+                ease: "Expo.easeInOut",
+            });
+
+            const mainLandingElement = document.querySelector(".landing"); 
+            if (mainLandingElement) {
+                mainLandingElement.addEventListener("mousemove", function (e) {
+                    if (!mainContent || mainContent.style.display === 'none') return;
+                    
+                    const xMove = (e.clientX / window.innerWidth - 0.5) * 40;
+                    const textElementForParallax = mainLandingElement.querySelector('.text');
+                    
+                    if (textElementForParallax) {
+                        gsap.to(textElementForParallax, {
+                            xPercent: xMove * 0.4, 
+                            ease: "power1.out",
+                            duration: 0.5
+                        });
+                    }
+                    gsap.to(".sky", { 
+                        x: xMove,
+                        ease: "power1.out",
+                        duration: 0.5
+                    });
+                    gsap.to(".bg", { 
+                        x: xMove * 1.7,
+                        ease: "power1.out",
+                        duration: 0.5
+                    });
+                });
+            }
         }
-      }
+
+        const tl = gsap.timeline();
+
+        tl.to('.vi-mask-group', {
+          rotate: 10,
+          duration: 2,
+          ease: 'power4.inOut',
+          transformOrigin: '50% 50%'
+        })
+        .to('.vi-mask-group', {
+          scale: 10,
+          opacity: 0,
+          duration: 2,
+          delay: -1.8, 
+          ease: 'expo.inOut',
+          transformOrigin: '50% 50%',
+          onUpdate: function() {
+            if (this.progress() >= 0.9 && !mainAnimationStarted) {
+              if (svgContainer && svgContainer.parentNode) { 
+                svgContainer.remove(); 
+              }
+              if (mainContent) {
+                mainContent.style.display = 'block'; 
+                animateMainContent(); 
+              }
+              this.kill(); 
+            }
+          },
+          onComplete: function() {
+            if (!mainAnimationStarted) {
+                if (svgContainer && svgContainer.parentNode) {
+                    svgContainer.remove();
+                }
+                if (mainContent) {
+                    mainContent.style.display = "block";
+                    animateMainContent();
+                }
+            }
+          }
+        });
+
+        if (scrollDownButton && secondSection) {
+            scrollDownButton.addEventListener('click', () => {
+                secondSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        }
     });
+    </script>
 
-    function runMainAnimations() {
-      gsap.to('.sky',      { scale: 1,    rotate: 0, duration: 2, ease: "expo.inOut" });
-      gsap.to('.bg-img',   { scale: 1,    rotate: 0, duration: 2, ease: "expo.inOut" });
-      gsap.to('.character',{ scale: 0.6, top: "15%", rotate: 0, duration: 2, ease: "expo.inOut" });
-      gsap.to('.text',     { scale: 1,    rotate: 0, duration: 2, ease: "expo.inOut" });
-
-      document.querySelector('.landing').addEventListener('mousemove', e => {
-        const xMove = (e.clientX / window.innerWidth - 0.5) * 40;
-        gsap.to('.text',   { x: `${xMove * 0.4}%` });
-        gsap.to('.sky',    { x: xMove });
-        gsap.to('.bg-img', { x: xMove * 1.7 });
-      });
-    }
-
-    // Scroll-down
-    document.querySelector('.btmbar').addEventListener('click', () => {
-      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-    });
-  </script>
 </body>
 </html>
