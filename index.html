@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rockstar Landing</title>
+
+  <!-- Remixicon -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet"/>
+
+  <style>
+    @font-face {
+      font-family: "pricedown";
+      src: url("./pricedown.otf") format("opentype");
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: "pricedown", sans-serif;
+      background-color: black;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* hide main until mask is done */
+    .main { display: none; }
+
+    .landing { width: 100%; height: 100vh; position: relative; }
+
+    .navbar {
+      position: absolute; top: 0; left: 0;
+      width: 100%; padding: 2vw; z-index: 10;
+    }
+    .logo { display: flex; align-items: center; gap: 1vw; }
+    .lines { display: flex; flex-direction: column; gap: 5px; }
+    .line { height: 8px; background: white; width: 60px; }
+    .line.small { width: 32px; }
+    .line.tiny { width: 20px; }
+    .logo h3 { font-size: 2.25rem; color: white; }
+
+    .imagesdiv { width: 100%; height: 100%; position: relative; }
+    .imagesdiv img {
+      position: absolute; width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .sky    { transform: scale(1.5) rotate(-20deg); }
+    .bg-img { transform: scale(1.8) rotate(-3deg); }
+
+    .text {
+      position: absolute;
+      top: 10%; left: 50%;
+      transform: translateX(-50%) scale(1.4) rotate(-10deg);
+      display: flex; flex-direction: column; gap: 1vw;
+      z-index: 5;
+    }
+    .text h1 {
+      font-size: 10vw; color: white;
+      text-transform: uppercase; line-height: 1;
+    }
+    .text h1:nth-child(1),
+    .text h1:nth-child(3) { margin-left: -5vw; }
+    .text h1:nth-child(2) { margin-left: 5vw; }
+
+    .character {
+      position: absolute;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%) scale(0.6);
+      transform-origin: top center;
+      z-index: 6;
+      pointer-events: none;
+    }
+
+    .btmbar {
+      position: absolute;
+      bottom: 0; width: 100%;
+      padding: 3vw 2vw;
+      background: linear-gradient(to top, black, transparent);
+      display: flex; align-items: center;
+      justify-content: center;
+      color: white; z-index: 5;
+      cursor: pointer;
+    }
+    .btmbar .left {
+      display: flex; align-items: center; gap: 1vw;
+    }
+    .btmbar h3 {
+      font-size: 1.25rem; font-family: Arial, sans-serif;
+    }
+    .btmbar .ps5 { height: 55px; }
+
+    .section {
+      width: 100%; height: 100vh;
+      background-color: black; color: white;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cntnr { display: flex; width: 90%; height: 80%; }
+    .limg { flex: 1; position: relative; }
+    .limg img {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(1.3);
+    }
+    .rg {
+      width: 30%; padding: 5vw 2vw;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .rg h1 { font-size: 4.5rem; line-height: 1; }
+    .rg p {
+      font-size: 1rem; font-family: Arial, sans-serif;
+      margin-top: 1rem;
+    }
+    .rg button {
+      margin-top: 2.5rem; padding: 1rem 2.5rem;
+      font-size: 2rem; background-color: #facc15;
+      color: black; border: none; cursor: pointer;
+      font-family: inherit;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SVG MASK -->
+  <div class="svg">
+    <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <mask id="viMask">
+          <rect width="100%" height="100%" fill="black"/>
+          <g class="vi-mask-group">
+            <text x="50%" y="50%" font-size="250"
+                  text-anchor="middle"
+                  fill="white"
+                  dominant-baseline="middle"
+                  font-family="Arial Black">
+              VI
+            </text>
+          </g>
+        </mask>
+      </defs>
+      <image href="./bg.png"
+             width="100%" height="100%"
+             preserveAspectRatio="xMidYMid slice"
+             mask="url(#viMask)" />
+    </svg>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <div class="landing">
+      <div class="navbar">
+        <div class="logo">
+          <div class="lines">
+            <div class="line"></div>
+            <div class="line small"></div>
+            <div class="line tiny"></div>
+          </div>
+          <h3>Rockstar</h3>
+        </div>
+      </div>
+
+      <div class="imagesdiv">
+        <img class="sky"    src="./sky.png"   alt="sky"/>
+        <img class="bg-img" src="./bg.png"    alt="background"/>
+        <div class="text">
+          <h1>grand</h1>
+          <h1>theft</h1>
+          <h1>auto</h1>
+        </div>
+        <img class="character" src="./girlbg.png" alt="character"/>
+      </div>
+
+      <div class="btmbar">
+        <div class="left">
+          <i class="ri-arrow-down-line"></i>
+          <h3>Scroll Down</h3>
+          <img class="ps5" src="./ps5.png" alt="ps5"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="cntnr">
+        <div class="limg">
+          <img src="./imag.png" alt="image"/>
+        </div>
+        <div class="rg">
+          <h1>Still Running,</h1>
+          <h1>Not Hunting</h1>
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit...</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+          <button>Download Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GSAP -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+  <script>
+    const svgEl  = document.querySelector('.svg');
+    const mainEl = document.querySelector('.main');
+    const tl     = gsap.timeline();
+
+    // Mask intro
+    tl.to('.vi-mask-group', {
+      rotate: 10,
+      duration: 2,
+      ease: "power4.inOut",
+      transformOrigin: "50% 50%"
+    }).to('.vi-mask-group', {
+      scale: 10,
+      duration: 2,
+      delay: -1.8,
+      ease: "expo.inOut",
+      transformOrigin: "50% 50%",
+      opacity: 0,
+      onUpdate() {
+        if (this.progress() >= 0.9) {
+          svgEl.remove();
+          mainEl.style.display = 'block';
+          this.kill();
+          runMainAnimations();
+        }
+      }
+    });
+
+    function runMainAnimations() {
+      gsap.to('.sky',      { scale: 1,    rotate: 0, duration: 2, ease: "expo.inOut" });
+      gsap.to('.bg-img',   { scale: 1,    rotate: 0, duration: 2, ease: "expo.inOut" });
+      gsap.to('.character',{ scale: 0.6, top: "15%", rotate: 0, duration: 2, ease: "expo.inOut" });
+      gsap.to('.text',     { scale: 1,    rotate: 0, duration: 2, ease: "expo.inOut" });
+
+      document.querySelector('.landing').addEventListener('mousemove', e => {
+        const xMove = (e.clientX / window.innerWidth - 0.5) * 40;
+        gsap.to('.text',   { x: `${xMove * 0.4}%` });
+        gsap.to('.sky',    { x: xMove });
+        gsap.to('.bg-img', { x: xMove * 1.7 });
+      });
+    }
+
+    // Scroll-down
+    document.querySelector('.btmbar').addEventListener('click', () => {
+      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
