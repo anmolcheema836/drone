@@ -594,6 +594,18 @@
     </footer>
 
     <script>
+        const message = "What are you doing here Sneaky developer?";
+console.log(
+  `%c${message}`,
+  `background: linear-gradient(to right, #ff416c, #ff4b2b);
+   color: white;
+   padding: 8px 16px;
+   font-size: 16px;
+   border-radius: 8px;
+   font-weight: bold;
+   display: inline-block;`
+);
+
     // --- THREE.JS & INTERACTION STATE ---
     let scene, camera, renderer, interactiveDroneModel, laserBeam, particlesGroup;
     let isDroneActive = false, isDroneDestroyed = false, destructionTriggered = false;
