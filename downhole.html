@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Independent Downhole Solutions - Redesigned</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /*
+        Color Palette:
+        Deep Teal: #005f73
+        Aquamarine: #0a9396
+        Slate Gray: #001219
+        */
+
+        :root {
+            /* Light Theme */
+            --bg-color-light: #f4f7f6; /* Very light, slightly cool gray */
+            --text-color-light: #001219; /* Slate Gray */
+            --card-bg-light: #ffffff;
+            --primary-accent-light: #005f73; /* Deep Teal */
+            --secondary-accent-light: #0a9396; /* Aquamarine */
+            --border-color-light: #dfe3e6;
+            --header-solid-bg-light: rgba(244, 247, 246, 0.97); /* Semi-transparent light */
+
+            /* Dark Theme */
+            --bg-color-dark: #001219; /* Slate Gray */
+            --text-color-dark: #e0e7ff; /* Light, slightly desaturated cyan/blue */
+            --card-bg-dark: #002a3a; /* Darker teal for cards */
+            --primary-accent-dark: #0a9396; /* Aquamarine as primary in dark */
+            --secondary-accent-dark: #005f73; /* Deep Teal as secondary in dark */
+            --border-color-dark: #003f53; /* Darker border */
+            --header-solid-bg-dark: rgba(0, 18, 25, 0.97); /* Semi-transparent dark */
+
+            /* Font Families */
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+
+            /* Transitions & Sizing */
+            --transition-speed: 0.3s;
+            --header-height: 70px;
+            --border-radius: 8px;
+
+            /* Initial Theme (Light) */
+            --current-bg: var(--bg-color-light);
+            --current-text: var(--text-color-light);
+            --current-card-bg: var(--card-bg-light);
+            --current-primary-accent: var(--primary-accent-light);
+            --current-secondary-accent: var(--secondary-accent-light);
+            --current-border-color: var(--border-color-light);
+            --current-header-solid-bg: var(--header-solid-bg-light);
+            --current-hero-text: #ffffff; /* Default white for hero text on dark bg */
+        }
+
+        body.dark-theme {
+            --current-bg: var(--bg-color-dark);
+            --current-text: var(--text-color-dark);
+            --current-card-bg: var(--card-bg-dark);
+            --current-primary-accent: var(--primary-accent-dark);
+            --current-secondary-accent: var(--secondary-accent-dark);
+            --current-border-color: var(--border-color-dark);
+            --current-header-solid-bg: var(--header-solid-bg-dark);
+            --current-hero-text: var(--text-color-dark);
+        }
+
+        /* Base Reset and Global Styles */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--current-bg);
+            color: var(--current-text);
+            line-height: 1.7;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            overflow-x: hidden;
+        }
+
+        /* Headings */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--current-primary-accent);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+            font-weight: 600;
+        }
+        h1 { font-size: 2.8rem; letter-spacing: -0.5px;}
+        h2 { font-size: 2.2rem; }
+        h3 { font-size: 1.6rem; }
+        h4 { font-size: 1.2rem; }
+
+        /* Links */
+        a {
+            color: var(--current-secondary-accent);
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
+        }
+        a:hover, a:focus {
+            color: var(--current-primary-accent);
+            text-decoration: underline;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: center;
+            border-radius: var(--border-radius);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            cursor: pointer;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-primary {
+            background-color: var(--current-secondary-accent);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background-color: var(--current-primary-accent);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            color: #fff;
+            text-decoration: none;
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--current-secondary-accent);
+            border: 2px solid var(--current-secondary-accent);
+        }
+        .btn-secondary:hover {
+            background-color: var(--current-secondary-accent);
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-decoration: none;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        .text-center { text-align: center; }
+        .section-padding { padding: 5rem 0; }
+        .hidden { display: none; }
+        .section-title {
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--current-text);
+            opacity: 0.8;
+            max-width: 700px;
+            margin: -1rem auto 2.5rem auto;
+        }
+
+        /* Scroll-triggered Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header */
+        #site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            z-index: 1000;
+            transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, height var(--transition-speed) ease;
+            background-color: transparent;
+        }
+        #site-header.scrolled {
+            background-color: var(--current-header-solid-bg);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            height: calc(var(--header-height) - 10px);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            padding: 0 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--current-hero-text); /* White on transparent header over dark hero */
+            transition: color var(--transition-speed) ease;
+        }
+        #site-header.scrolled .logo {
+            color: var(--current-primary-accent);
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+        }
+        .main-nav li {
+            margin-left: 2rem;
+        }
+        .nav-link {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--current-hero-text); /* White on transparent header */
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--current-secondary-accent);
+            transition: width var(--transition-speed) ease;
+        }
+        .nav-link:hover::after, .nav-link:focus::after {
+            width: 100%;
+        }
+        .nav-link:hover { text-decoration: none; }
+        #site-header.scrolled .nav-link {
+            color: var(--current-text);
+        }
+        #site-header.scrolled .nav-link:hover {
+            color: var(--current-secondary-accent);
+        }
+
+
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-left: 1.5rem;
+            color: var(--current-hero-text); /* White on transparent */
+            transition: color var(--transition-speed) ease;
+        }
+        #site-header.scrolled .theme-toggle-btn {
+            color: var(--current-primary-accent);
+        }
+        .theme-toggle-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        /* Mobile Nav */
+        .mobile-nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--current-hero-text); /* White on transparent */
+        }
+        #site-header.scrolled .mobile-nav-toggle {
+            color: var(--current-primary-accent);
+        }
+
+        /* Hero Section */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--current-hero-text);
+            background: linear-gradient(rgba(0, 18, 25, 0.8), rgba(0, 95, 115, 0.7)),
+                        url('https://images.unsplash.com/photo-1505670593400-e0b5fc07af70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8b2lsJTIwZmllbGR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=60') no-repeat center center/cover;
+            /* Fallback solid background if image fails or for simpler look */
+            /* background-color: var(--color-background-dark); */
+            padding-top: var(--header-height);
+        }
+        .hero-content {
+            max-width: 850px;
+            padding: 2rem;
+        }
+        #hero h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #fff; /* Always white for max contrast on hero */
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+        #hero .subheadline {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            font-family: var(--font-body);
+            color: rgba(255,255,255,0.9);
+            line-height: 1.8;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+        }
+        .hero-ctas .btn {
+            margin: 0.5rem;
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+        }
+        /* Specific CTA colors for hero to stand out */
+        .hero-ctas .btn-primary {
+            background-color: var(--secondary-accent-light); /* Aquamarine */
+            color: #fff;
+        }
+        .hero-ctas .btn-primary:hover {
+            background-color: var(--primary-accent-light); /* Deep Teal */
+        }
+        .hero-ctas .btn-secondary {
+            border-color: #fff;
+            color: #fff;
+        }
+        .hero-ctas .btn-secondary:hover {
+            background-color: #fff;
+            color: var(--primary-accent-light); /* Deep Teal */
+        }
+
+
+        /* About Section */
+        #about .core-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .value-item {
+            background-color: var(--current-card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+            border: 1px solid var(--current-border-color);
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            text-align: center;
+        }
+        .value-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .value-item-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--current-secondary-accent);
+        }
+        .value-item-icon svg {
+            width: 48px;
+            height: 48px;
+            stroke-width: 1.5;
+        }
+        .value-item h4 {
+            font-size: 1.3rem;
+            color: var(--current-primary-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Services Section */
+        #services {
+            background-color: var(--current-card-bg); /* Slightly different bg for section distinction */
+        }
+        body.dark-theme #services {
+             background-color: var(--bg-color-dark); /* keep it same as body bg in dark mode */
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .service-card {
+            background-color: var(--current-card-bg);
+            padding: 2.5rem 2rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--current-border-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 95, 115, 0.1);
+        }
+        .service-card h3 {
+            color: var(--current-primary-accent);
+            margin-bottom: 1rem;
+        }
+        .service-card p {
+            flex-grow: 1; /* Make p take available space */
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        .service-card .btn {
+            margin-top: auto; /* Push button to bottom */
+        }
+
+        /* Modal for Services */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 18, 25, 0.7); /* Darker overlay */
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background-color: var(--current-card-bg);
+            color: var(--current-text);
+            margin: auto;
+            padding: 2.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 650px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: scaleUpModal 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        @keyframes scaleUpModal {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-close {
+            color: var(--current-text);
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            line-height: 1;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: var(--current-primary-accent);
+        }
+        .modal-content h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            color: var(--current-primary-accent);
+            font-size: 1.8rem;
+        }
+        .modal-content ul {
+            list-style: none; /* Remove default */
+            padding-left: 0;
+        }
+        .modal-content li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .modal-content li::before {
+            content: '›'; /* Chevron or other custom bullet */
+            position: absolute;
+            left: 0;
+            color: var(--current-secondary-accent);
+            font-weight: bold;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+
+        /* Why Choose Us Section */
+        #why-choose-us {
+            background-color: var(--current-primary-accent);
+            color: #fff;
+        }
+        #why-choose-us .section-title, #why-choose-us .section-subtitle {
+            color: #fff;
+        }
+        #why-choose-us .section-subtitle { opacity: 0.85; }
+
+        .stats-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        .stat-item {
+            padding: 1.5rem;
+        }
+        .stat-item-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-accent-light); /* Aquamarine for icons on dark bg */
+        }
+         .stat-item-icon svg {
+            width: 48px;
+            height: 48px;
+            stroke-width: 1.5;
+        }
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.25rem;
+            color: #fff;
+        }
+        .stat-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        /* Rentals Section */
+        .rentals-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .rental-item {
+            background-color: var(--current-card-bg);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--current-border-color);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+        .rental-item h4 {
+            color: var(--current-primary-accent);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Contact Section */
+        #contact {
+            background-color: var(--current-card-bg); /* Section distinction */
+        }
+         body.dark-theme #contact {
+             background-color: var(--bg-color-dark); /* keep it same as body bg in dark mode */
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .contact-info p {
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+        .contact-info strong {
+            font-weight: 600;
+            color: var(--current-primary-accent);
+        }
+        .contact-info .btn { margin-top: 1.5rem; }
+
+        .map-placeholder {
+            width: 100%;
+            min-height: 350px;
+            background-color: var(--current-bg); /* Use main bg for placeholder */
+            border: 1px solid var(--current-border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--border-radius);
+            color: var(--current-text);
+            opacity: 0.7;
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        #site-footer {
+            background-color: var(--color-background-dark); /* Always slate gray */
+            color: var(--text-color-dark); /* Always light text */
+            padding: 3rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        #site-footer p {
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+        #site-footer a {
+            color: var(--secondary-accent-light); /* Aquamarine for links */
+            font-weight: 600;
+        }
+        #site-footer a:hover {
+            color: #fff;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            h1 { font-size: 2.5rem; }
+            #hero h1 { font-size: 3.2rem; }
+            h2 { font-size: 2rem; }
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .map-placeholder {
+                margin-top: 2rem;
+                min-height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                display: none;
+                position: absolute;
+                top: var(--header-height); /* Position below initial header height */
+                left: 0;
+                width: 100%;
+                background-color: var(--current-header-solid-bg);
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                border-top: 1px solid var(--current-border-color);
+            }
+            #site-header.scrolled .main-nav {
+                 top: calc(var(--header-height) - 10px); /* Adjust for scrolled header */
+            }
+            .main-nav.active {
+                display: flex;
+            }
+            .main-nav ul {
+                flex-direction: column;
+                width: 100%;
+            }
+            .main-nav li {
+                margin: 0;
+                text-align: center;
+            }
+            .nav-link {
+                display: block;
+                padding: 0.8rem 1rem;
+                color: var(--current-text) !important; /* Important to override transparent header color */
+                font-size: 1rem;
+            }
+             .nav-link::after { display: none; } /* No underline for mobile nav items */
+
+            .mobile-nav-toggle {
+                display: block;
+            }
+
+            h1 { font-size: 2.2rem; }
+            #hero h1 { font-size: 2.8rem; }
+            #hero .subheadline { font-size: 1.15rem; }
+            h2 { font-size: 1.8rem; }
+            .section-padding { padding: 3.5rem 0; }
+
+            #about .core-values, .services-grid, .stats-strip {
+                grid-template-columns: 1fr; /* Stack on smaller screens */
+            }
+            .hero-ctas .btn {
+                padding: 0.8rem 1.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 1rem; }
+            #hero h1 { font-size: 2.3rem; }
+            #hero .subheadline { font-size: 1rem; }
+            .hero-ctas .btn {
+                display: block;
+                width: 90%;
+                margin: 0.75rem auto;
+            }
+            .btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            .modal-content {
+                padding: 1.5rem;
+            }
+            .modal-content h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header id="site-header">
+        <div class="header-content">
+            <a href="#hero" class="logo">IDS</a>
+            <nav class="main-nav" id="main-nav">
+                <ul>
+                    <li><a href="#hero" class="nav-link">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#why-choose-us" class="nav-link">Why Us</a></li>
+                    <li><a href="#rentals" class="nav-link">Rentals</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-controls" style="display: flex; align-items: center;">
+                <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle theme">
+                    <!-- SVG icons will be injected by JS -->
+                </button>
+                <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-content animate-on-scroll">
+                <h1>Independent Downhole Solutions</h1>
+                <p class="subheadline">Alberta's premier provider of innovative downhole tools and expert operational support, driving safety, efficiency, and cost-effectiveness in oilfield operations.</p>
+                <div class="hero-ctas">
+                    <a href="#services" class="btn btn-primary">Explore Our Services</a>
+                    <a href="#contact" class="btn btn-secondary">Request a Quote</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section-padding">
+            <div class="container">
+                <div class="animate-on-scroll">
+                    <h2 class="section-title text-center">Pioneering Downhole Excellence</h2>
+                    <p class="section-subtitle text-center">
+                        With over 60 years of combined oilfield experience, Independent Downhole Solutions is your dedicated partner in Alberta, Canada. We deliver not just tools, but comprehensive solutions built on a foundation of practical knowledge and a commitment to your project's success.
+                    </p>
+                </div>
+                <div class="core-values">
+                    <div class="value-item animate-on-scroll" style="animation-delay: 0.1s;">
+                        <div class="value-item-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                        </div>
+                        <h4>Safety First</h4>
+                        <p>Unyielding commitment to the highest safety standards in every operation.</p>
+                    </div>
+                    <div class="value-item animate-on-scroll" style="animation-delay: 0.2s;">
+                         <div class="value-item-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                        </div>
+                        <h4>Efficiency Driven</h4>
+                        <p>Optimizing your operations with smart tools and experienced guidance for peak performance.</p>
+                    </div>
+                    <div class="value-item animate-on-scroll" style="animation-delay: 0.3s;">
+                        <div class="value-item-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                        </div>
+                        <h4>Cost-Effectiveness</h4>
+                        <p>Providing high-value solutions that maximize your ROI without compromising quality.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="section-padding">
+            <div class="container">
+                <h2 class="section-title text-center animate-on-scroll">Comprehensive Downhole Services & Tools</h2>
+                 <p class="section-subtitle text-center animate-on-scroll">
+                    From initial completion to abandonment, we provide a full spectrum of specialized tools and services designed for reliability and performance.
+                </p>
+                <div class="services-grid">
+                    <div class="service-card animate-on-scroll" data-service-id="thru-tubing" style="animation-delay: 0.1s;">
+                        <h3>Thru Tubing</h3>
+                        <p>Advanced solutions for wellbore intervention and optimization without pulling the production tubing.</p>
+                        <button class="btn btn-secondary service-modal-trigger">Discover Tools</button>
+                    </div>
+                    <div class="service-card animate-on-scroll" data-service-id="completions" style="animation-delay: 0.2s;">
+                        <h3>Completions</h3>
+                        <p>Reliable tools and expertise for efficient and effective well completion operations.</p>
+                        <button class="btn btn-secondary service-modal-trigger">Discover Tools</button>
+                    </div>
+                    <div class="service-card animate-on-scroll" data-service-id="fishing" style="animation-delay: 0.3s;">
+                        <h3>Fishing</h3>
+                        <p>Specialized tools for retrieving lost or stuck equipment from the wellbore with precision.</p>
+                        <button class="btn btn-secondary service-modal-trigger">Discover Tools</button>
+                    </div>
+                    <div class="service-card animate-on-scroll" data-service-id="abandonments" style="animation-delay: 0.4s;">
+                        <h3>Abandonments</h3>
+                        <p>Secure and compliant tools for permanent well plugging and abandonment projects.</p>
+                        <button class="btn btn-secondary service-modal-trigger">Discover Tools</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us Section -->
+        <section id="why-choose-us" class="section-padding">
+            <div class="container text-center">
+                <h2 class="section-title animate-on-scroll">The Independent Advantage</h2>
+                <p class="section-subtitle animate-on-scroll">
+                    Our deep industry knowledge, combined with a client-focused approach, makes us the preferred partner for challenging downhole operations.
+                </p>
+                <div class="stats-strip">
+                    <div class="stat-item animate-on-scroll" style="animation-delay: 0.1s;">
+                        <div class="stat-item-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+                        <span class="stat-number" data-target="60">0</span>
+                        <span class="stat-label">Years Combined Experience</span>
+                    </div>
+                    <div class="stat-item animate-on-scroll" style="animation-delay: 0.2s;">
+                        <div class="stat-item-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></div>
+                        <span class="stat-number" data-target="99">0</span>
+                        <span class="stat-label">% Project Success Focus</span>
+                    </div>
+                    <div class="stat-item animate-on-scroll" style="animation-delay: 0.3s;">
+                        <div class="stat-item-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+                        <span class="stat-number" data-target="100">0</span>
+                        <span class="stat-label">% Commitment to Safety</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rentals Section -->
+        <section id="rentals" class="section-padding">
+            <div class="container">
+                <h2 class="section-title text-center animate-on-scroll">Quality Equipment Rentals</h2>
+                <p class="section-subtitle text-center animate-on-scroll">
+                    Access a comprehensive inventory of well-maintained downhole tools available for rent. We ensure you have the right equipment when you need it.
+                </p>
+                <div class="rentals-list">
+                    <div class="rental-item animate-on-scroll" style="animation-delay: 0.1s;"><h4>Casing Scrapers</h4></div>
+                    <div class="rental-item animate-on-scroll" style="animation-delay: 0.15s;"><h4>Power Swivels</h4></div>
+                    <div class="rental-item animate-on-scroll" style="animation-delay: 0.2s;"><h4>Drill Collars & Subs</h4></div>
+                    <div class="rental-item animate-on-scroll" style="animation-delay: 0.25s;"><h4>Adapter Flanges</h4></div>
+                    <div class="rental-item animate-on-scroll" style="animation-delay: 0.3s;"><h4>Bit-Subs & Crossovers</h4></div>
+                    <div class="rental-item animate-on-scroll" style="animation-delay: 0.35s;"><h4>Many More...</h4></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section-padding">
+            <div class="container">
+                <h2 class="section-title text-center animate-on-scroll">Connect With Our Experts</h2>
+                 <p class="section-subtitle text-center animate-on-scroll">
+                    Ready to discuss your project requirements or need immediate assistance? Our team is here to help.
+                </p>
+                <div class="contact-grid animate-on-scroll" style="animation-delay: 0.2s;">
+                    <div class="contact-info">
+                        <p><strong>Phone:</strong> <a href="tel:5874531115">(587) 453-1115</a></p>
+                        <p><strong>Email:</strong> <a href="mailto:info@downholesolutions.ca">info@downholesolutions.ca</a> (Placeholder)</p>
+                        <p><strong>Operating Area:</strong> Alberta, Canada</p>
+                        <p>We provide responsive service and reliable solutions across the Alberta oilfield. Contact us to learn how we can support your operations.</p>
+                        <a href="tel:5874531115" class="btn btn-primary">Call Us Today</a>
+                    </div>
+                  <div class="map-placeholder" style="width: 100%; height: 400px;">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19070.184195480935!2d-113.52226871865312!3d53.31151109236225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x539ff92d6eb16247%3A0x5b62276ff0678158!2sIndependent%20Downhole%20Solutions!5e0!3m2!1sen!2sca!4v1691173635711!5m2!1sen!2sca"
+    width="100%"
+    height="100%"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="site-footer">
+        <div class="container">
+            <p>© <span id="current-year"></span> Independent Downhole Solutions. All Rights Reserved.</p>
+            <p>Empowering Your Downhole Success | <a href="https://www.downholesolutions.ca" target="_blank" rel="noopener noreferrer">downholesolutions.ca</a></p>
+        </div>
+    </footer>
+
+    <!-- Service Details Modal -->
+    <div id="serviceModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalCloseBtn" aria-label="Close modal">×</span>
+            <h3 id="modalTitle">Service Tools</h3>
+            <ul id="modalToolList">
+                <!-- Tool items will be populated by JavaScript -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Elements ---
+        const siteHeader = document.getElementById('site-header');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const currentYearSpan = document.getElementById('current-year');
+        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+        const mainNav = document.getElementById('main-nav');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileNavIconOpen = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>`;
+        const mobileNavIconClose = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+
+
+        // SVG Icons for theme toggle
+        const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+        const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+
+        // --- Initializations ---
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+        applyInitialTheme();
+
+        // --- Sticky Header ---
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > 50) {
+                siteHeader.classList.add('scrolled');
+            } else {
+                siteHeader.classList.remove('scrolled');
+            }
+            // Optional: Hide header on scroll down, show on scroll up
+            // if (scrollTop > lastScrollTop && scrollTop > siteHeader.offsetHeight){
+            //     siteHeader.style.top = `-${siteHeader.offsetHeight}px`; // Hide
+            // } else {
+            //     siteHeader.style.top = "0"; // Show
+            // }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        });
+
+        // --- Theme Toggle ---
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                body.classList.add('dark-theme');
+                themeToggleBtn.innerHTML = sunIcon;
+            } else {
+                body.classList.remove('dark-theme');
+                themeToggleBtn.innerHTML = moonIcon;
+            }
+            // Update logo color based on theme *after* class is applied
+            // This is a bit tricky due to initial transparent header
+            // Handled mostly by CSS, but you could force update here if needed for complex scenarios
+        }
+
+        function applyInitialTheme() {
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            applyTheme(savedTheme);
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+        
+        // --- Mobile Navigation ---
+        mobileNavToggle.addEventListener('click', () => {
+            const isExpanded = mainNav.classList.toggle('active');
+            mobileNavToggle.setAttribute('aria-expanded', isExpanded);
+            mobileNavToggle.innerHTML = isExpanded ? mobileNavIconClose : mobileNavIconOpen;
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (mainNav.classList.contains('active')) {
+                    mainNav.classList.remove('active');
+                    mobileNavToggle.setAttribute('aria-expanded', 'false');
+                    mobileNavToggle.innerHTML = mobileNavIconOpen;
+                }
+            });
+        });
+
+        // --- Scroll-triggered Animations ---
+        const animatedElements = document.querySelectorAll('.animate-on-scroll');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 // A bit more visible before animating
+        };
+
+        const animationObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // observer.unobserve(entry.target); // Optional: unobserve after first animation
+                }
+            });
+        }, observerOptions);
+
+        animatedElements.forEach(el => {
+            animationObserver.observe(el);
+        });
+
+        // --- Animated Counters ---
+        const statsSection = document.getElementById('why-choose-us');
+        const counters = document.querySelectorAll('.stat-number');
+        let countersAnimated = false;
+
+        function animateCounter(counter) {
+            const target = +counter.getAttribute('data-target');
+            const duration = 1800; // slightly faster
+            const DURATION_MS_PER_FRAME = 16; // approx 60fps
+            const totalFrames = Math.round(duration / DURATION_MS_PER_FRAME);
+            const increment = target / totalFrames;
+
+
+            let current = 0;
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    counter.innerText = Math.ceil(current);
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            requestAnimationFrame(updateCounter);
+        }
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !countersAnimated) {
+                    counters.forEach(animateCounter);
+                    countersAnimated = true;
+                }
+            });
+        }, { threshold: 0.4 });
+
+        if (statsSection && counters.length > 0) {
+            counterObserver.observe(statsSection);
+        }
+
+        // --- Services Modal ---
+        const serviceModalTriggers = document.querySelectorAll('.service-modal-trigger');
+        const serviceModal = document.getElementById('serviceModal');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalToolList = document.getElementById('modalToolList');
+
+        const serviceData = {
+            'thru-tubing': {
+                title: 'Thru Tubing Tools & Solutions',
+                tools: [
+                    'High-Performance Mud Motors', 'Precise Confirmation Runs', 'Efficient Frac Port/Plug Drilling',
+                    'Thorough Sand Cleanouts', 'Advanced Extended Reach Tools (ERTs)', 'Optimized Bit & Mill Selection Guidance'
+                ]
+            },
+            'completions': {
+                title: 'Completion Tools & Systems',
+                tools: [
+                    'Reliable Sand Bailers', 'Secure WR Bridge Plugs', 'Effective Surface Isolation Tools',
+                    'Robust Anchor Catchers', 'Innovative No-Turn Tools for specialized applications'
+                ]
+            },
+            'fishing': {
+                title: 'Expert Fishing Tools & Services',
+                tools: [
+                    'Powerful Fishing Magnets (Standard & String)', 'High-Capacity Venturi Junk Baskets',
+                    'Versatile Reverse Junk Baskets', 'Efficient Super Suckers for debris removal', 'Durable Rod Overshots'
+                ]
+            },
+            'abandonments': {
+                title: 'Abandonment & Zonal Isolation Tools',
+                tools: [
+                    'Permanent Bridge Plugs for secure sealing', 'Reliable Cement Retainers & Squeeze Tools', 'Accurate Test Packers for integrity verification'
+                ]
+            }
+        };
+
+        serviceModalTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const serviceId = trigger.closest('.service-card').dataset.serviceId;
+                const data = serviceData[serviceId];
+                if (data) {
+                    modalTitle.textContent = data.title;
+                    modalToolList.innerHTML = '';
+                    data.tools.forEach(tool => {
+                        const li = document.createElement('li');
+                        li.textContent = tool;
+                        modalToolList.appendChild(li);
+                    });
+                    serviceModal.classList.add('active');
+                    body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        function closeModal() {
+            if (serviceModal) {
+                serviceModal.classList.remove('active');
+                body.style.overflow = '';
+            }
+        }
+
+        if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+        if (serviceModal) serviceModal.addEventListener('click', (event) => {
+            if (event.target === serviceModal) closeModal();
+        });
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && serviceModal && serviceModal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+    }); // End DOMContentLoaded
+    </script>
+
+</body>
+</html>
