@@ -3,20 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkyWars Solutions - Advanced Aerial Threat Neutralization</title>
 
+    <!-- SEO -->
+    <title>SkyWars Solutions - Advanced Aerial Threat Neutralization</title>
+    <meta name="description" content="SkyWars provides AI-driven aerial defense systems for critical infrastructure protection against unmanned threats. Explore our advanced drone detection and neutralization capabilities.">
+
+    <!-- Performance: Preconnect and Preload Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
+    <!-- Performance: Preload Hero Video -->
+    <link rel="preload" href="https://video.wixstatic.com/video/a089dd_f5b82e2ab4784ebdb6fd4e3517c9a11d/1080p/mp4/file.mp4" as="video" type="video/mp4">
+
+    <!-- Performance: Preconnect to CDNs -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+    <!-- Best Practices: Basic Security Headers (Consider server-side implementation for production) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="Referrer-Policy" content="no-referrer-when-downgrade">
+    <!-- WARNING: CSP is complex. This is a basic example and needs testing/refinement. -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com *.placeholder.com; media-src 'self' https://video.wixstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"> -->
+
 
     <style>
         :root {
-            --font-primary: 'Exo 2', 'Segoe UI', sans-serif;
-            --font-display: 'Orbitron', 'Exo 2', sans-serif;
+            --font-primary: 'Exo 2', 'Segoe UI', sans-serif; /* Added fallback */
+            --font-display: 'Orbitron', 'Exo 2', sans-serif; /* Added fallback */
 
             --primary-glow: #00e5ff;
             --primary-base: #00a1b3;
@@ -28,8 +44,15 @@
             --bg-deep-space: #05080a;
             --bg-tech-panel: #0d1218;
             --bg-glass-tint: rgba(10, 20, 35, 0.6);
-            --border-highlight: rgba(var(--primary-glow-rgb,0,229,255), 0.5);
-            --border-subtle: rgba(var(--neutral-light-rgb,212,224,240), 0.1);
+            --border-highlight: rgba(0,229,255, 0.5); /* Hardcoded RGB for direct use */
+            --border-subtle: rgba(212,224,240, 0.1); /* Hardcoded RGB for direct use */
+
+             /* Using Hardcoded RGBs for CSS Vars for performance (avoids lookup sometimes) */
+            --primary-glow-rgb: 0,229,255;
+            --secondary-accent-rgb: 255,64,129;
+            --neutral-light-rgb: 212,224,240;
+            --bg-deep-space-rgb: 5,8,10;
+            --bg-tech-panel-rgb: 13,18,24;
 
             --transition-snap: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -40,14 +63,17 @@
             --drone-viewport-size-mobile: 140px;
             --drone-viewport-margin: 25px;
 
+            /* Performance: box-shadow animation is costly. Consider opacity/transform alternatives if needed. */
             --glow-animation: pulse-glow 2.5s infinite alternate;
         }
 
         @keyframes pulse-glow {
-            from { box-shadow: 0 0 5px -2px var(--primary-glow), 0 0 8px -4px var(--primary-glow), inset 0 0 4px -2px var(--primary-glow); }
-            to { box-shadow: 0 0 15px 0px var(--primary-glow), 0 0 25px -5px var(--primary-glow), inset 0 0 10px 0px var(--primary-glow); }
+            /* Simplified slightly */
+            from { box-shadow: 0 0 8px -4px var(--primary-glow), inset 0 0 4px -2px rgba(var(--primary-glow-rgb), 0.5); opacity: 0.8; }
+            to { box-shadow: 0 0 20px 0px var(--primary-glow), inset 0 0 10px 0px rgba(var(--primary-glow-rgb), 0.8); opacity: 1; }
         }
         @keyframes subtle-pulse {
+            /* Uses performant opacity and transform */
             0%, 100% { opacity: 0.7; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.02); }
         }
@@ -58,10 +84,23 @@
             font-family: var(--font-primary); background-color: var(--bg-deep-space);
             color: var(--neutral-light); line-height: 1.7; font-weight: 400;
             overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+            /* Performance: Explicitly define background */
+            background: var(--bg-deep-space);
+        }
+        /* Performance: Tell browser what will change for optimization */
+        .site-header, .info-module, .cta-button, .animate-on-scroll, #interactive-drone-viewport {
+           will-change: transform, opacity, box-shadow;
+        }
+        .cta-button::before {
+           will-change: left;
+        }
+        .main-nav ul {
+           will-change: transform;
         }
 
+
         h1, h2, h3, h4 { font-family: var(--font-display); margin-bottom: 1.5rem; font-weight: 600; line-height: 1.25; text-transform: uppercase; letter-spacing: 1px;}
-        h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--primary-glow); text-shadow: 0 0 15px rgba(var(--primary-glow-rgb,0,229,255),0.5), 0 0 30px rgba(var(--primary-glow-rgb,0,229,255),0.3); }
+        h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--primary-glow); text-shadow: 0 0 15px rgba(var(--primary-glow-rgb),0.5), 0 0 30px rgba(var(--primary-glow-rgb),0.3); }
         h2 { font-size: clamp(2rem, 5vw, 3.2rem); color: var(--primary-base); }
         h3 { font-size: clamp(1.5rem, 4vw, 2.2rem); color: var(--neutral-light); font-weight: 500;}
         p { margin-bottom: 1.5rem; font-size: clamp(0.95rem, 1.8vw, 1.1rem); color: var(--neutral-medium); font-weight: 300; }
@@ -72,7 +111,7 @@
 
         .site-header {
             position: fixed; top: 0; left: 0; width: 100%;
-            background-color: rgba(var(--bg-tech-panel-rgb,13,18,24), 0.7);
+            background-color: rgba(var(--bg-tech-panel-rgb), 0.7);
             backdrop-filter: blur(18px) saturate(150%);
             padding: 22px 0; z-index: 1000;
             border-bottom: 1px solid var(--border-subtle);
@@ -80,13 +119,13 @@
             transition: background-color var(--transition-smooth), padding var(--transition-smooth), box-shadow var(--transition-smooth);
         }
         .site-header.scrolled {
-            background-color: rgba(var(--bg-tech-panel-rgb,13,18,24), 0.9);
+            background-color: rgba(var(--bg-tech-panel-rgb), 0.9);
             padding: 16px 0; box-shadow: 0 5px 25px rgba(0,0,0,0.3);
         }
         .site-header .container { display: flex; justify-content: space-between; align-items: center; }
         .logo { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; color: var(--primary-glow); letter-spacing: 0px; text-transform: uppercase;}
         .logo span { color: var(--neutral-light); font-weight: 400;}
-        .main-nav ul { list-style: none; display: flex; align-items: center; }
+        .main-nav ul { list-style: none; display: flex; align-items: center; margin: 0; padding: 0; /* Reset list styles */ }
         .main-nav ul li { margin-left: 40px; }
         .main-nav ul li a {
             font-family: var(--font-display); color: var(--neutral-medium); font-weight: 500; font-size: 1.05rem;
@@ -96,14 +135,15 @@
         .main-nav ul li a::after { content: none; }
         .main-nav ul li a:hover, .main-nav ul li a.active {
             color: var(--primary-glow);
-            text-shadow: 0 0 8px rgba(var(--primary-glow-rgb,0,229,255),0.7);
+            text-shadow: 0 0 8px rgba(var(--primary-glow-rgb),0.7);
         }
-        .mobile-nav-toggle { display: none; background: none; border: none; color: var(--neutral-light); font-size: 2.4rem; cursor: pointer; z-index: 1001;}
+        .mobile-nav-toggle { display: none; background: none; border: none; color: var(--neutral-light); font-size: 2.4rem; cursor: pointer; z-index: 1001; padding: 0; /* Remove padding */ }
 
         .hero-section {
-            height: 100vh; min-height: 700px; /* Adjusted min-height */ position: relative; display: flex;
+            height: 100vh; min-height: 700px; position: relative; display: flex;
             align-items: center; justify-content: center; text-align: center;
             overflow: hidden; color: #fff; padding-top: 100px; /* Accounts for header */
+            background: var(--bg-deep-space); /* Fallback background */
         }
         #hero-video-bg {
             position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%;
@@ -113,7 +153,7 @@
         .hero-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background:
-                radial-gradient(ellipse at center, rgba(var(--bg-deep-space-rgb,5,8,10),0.1) 0%, rgba(var(--bg-deep-space-rgb,5,8,10),0.7) 50%, var(--bg-deep-space) 90%),
+                radial-gradient(ellipse at center, rgba(var(--bg-deep-space-rgb),0.1) 0%, rgba(var(--bg-deep-space-rgb),0.7) 50%, var(--bg-deep-space) 90%),
                 linear-gradient(to bottom, transparent 70%, var(--bg-deep-space) 100%);
             z-index: -1;
         }
@@ -131,7 +171,7 @@
             width: var(--drone-viewport-size-desktop);
             height: var(--drone-viewport-size-desktop);
             z-index: 998; pointer-events: none;
-            background-color: rgba(var(--bg-tech-panel-rgb,13,18,24), 0.5);
+            background-color: rgba(var(--bg-tech-panel-rgb), 0.5);
             backdrop-filter: blur(12px) saturate(120%);
             border-radius: 15px;
             box-shadow: 0 0 0 1px var(--border-subtle), 0 5px 30px rgba(0,0,0,0.4);
@@ -149,6 +189,7 @@
             content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
             border-radius: 17px;
             border: 2px solid transparent;
+            /* Performance: conic-gradient can be intensive, uses GPU */
             background: conic-gradient(from 180deg at 50% 50%, var(--secondary-accent) 0%, var(--primary-glow) 50%, var(--secondary-accent) 100%) border-box;
             -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
@@ -158,6 +199,7 @@
             pointer-events: none;
             opacity: 0.7;
         }
+        /* Performance: Transform animations are efficient */
         @keyframes spin-border { to { transform: rotate(360deg); } }
 
         .cta-button {
@@ -173,13 +215,13 @@
         .cta-button:hover {
             transform: translateY(-5px) scale(1.04);
             box-shadow: 0 0 20px 0px var(--primary-glow), 0 0 30px -5px var(--primary-glow), 0 10px 30px rgba(0,0,0,0.4);
-            background-position: right center;
+            background-position: right center; /* This animation is okay */
         }
         .cta-button::before {
             content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
             background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
             transform: skewX(-25deg);
-            transition: left var(--transition-smooth);
+            transition: left var(--transition-smooth); /* Animating 'left' is less performant than transform, but often acceptable */
         }
         .cta-button:hover::before { left: 120%; }
 
@@ -189,7 +231,7 @@
         }
         .section-title span {
             font-family: var(--font-display); font-size: clamp(3.5rem, 10vw, 8rem);
-            color: rgba(var(--neutral-light-rgb,212,224,240),0.03);
+            color: rgba(var(--neutral-light-rgb),0.03);
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%);
             z-index: -1; font-weight: 800; user-select: none; text-transform: uppercase; letter-spacing: 3px;
         }
@@ -200,6 +242,7 @@
             margin: 20px auto 0; border-radius: 5px;
             animation: gradient-flow 5s linear infinite;
         }
+        /* Performance: Animating background-position can be costly */
         @keyframes gradient-flow {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
@@ -207,11 +250,11 @@
 
         .info-module-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Adjusted minmax */
-            gap: 40px; /* Adjusted gap */
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
         }
         .info-module {
-            background-color: rgba(var(--bg-tech-panel-rgb,13,18,24), 0.7);
+            background-color: rgba(var(--bg-tech-panel-rgb), 0.7);
             border: 1px solid var(--border-subtle);
             border-radius: 15px;
             padding: 35px;
@@ -223,26 +266,26 @@
         .info-module:hover {
             transform: translateY(-10px);
             border-color: var(--border-highlight);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px rgba(var(--primary-glow-rgb,0,229,255),0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px rgba(var(--primary-glow-rgb),0.2);
         }
         .info-module__icon {
             font-size: 3.5rem;
             margin-bottom: 1.5rem;
             display: inline-block;
             color: var(--primary-glow);
-            filter: drop-shadow(0 0 8px rgba(var(--primary-glow-rgb,0,229,255),0.5));
+            filter: drop-shadow(0 0 8px rgba(var(--primary-glow-rgb),0.5)); /* Filter can impact performance */
         }
         .info-module h3 {
             font-family: var(--font-display);
             color: var(--primary-base);
             margin-bottom: 1rem;
-            font-size: clamp(1.4rem, 3vw, 1.8rem); /* Responsive font size */
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
             letter-spacing: 0.5px;
         }
         .info-module p {
             font-family: var(--font-primary);
             color: var(--neutral-medium);
-            font-size: clamp(0.9rem, 1.5vw, 0.95rem); /* Responsive font size */
+            font-size: clamp(0.9rem, 1.5vw, 0.95rem);
             line-height: 1.7;
             font-weight: 300;
         }
@@ -251,30 +294,34 @@
             position: absolute;
             opacity: 0.05;
             pointer-events: none;
-            transition: opacity var(--transition-smooth);
+            transition: opacity var(--transition-smooth); /* Opacity is performant */
         }
         .info-module::before {
             width: 80px; height: 80px;
             top: -20px; left: -20px;
             border-top: 3px solid var(--primary-glow);
             border-left: 3px solid var(--primary-glow);
-            transform: rotate(45deg);
+            transform: rotate(45deg); /* Transform is performant */
         }
         .info-module:hover::before { opacity: 0.2; }
         .info-module {
+            /* Background gradients are generally okay */
             background-image:
-                radial-gradient(circle at top left, rgba(var(--primary-glow-rgb,0,229,255),0.05) 0%, transparent 30%),
-                radial-gradient(circle at bottom right, rgba(var(--secondary-accent-rgb,255,64,129),0.05) 0%, transparent 30%);
+                radial-gradient(circle at top left, rgba(var(--primary-glow-rgb),0.05) 0%, transparent 30%),
+                radial-gradient(circle at bottom right, rgba(var(--secondary-accent-rgb),0.05) 0%, transparent 30%);
             background-size: 100% 100%, 100% 100%;
         }
 
         .advantage-section {
-            background: linear-gradient(rgba(var(--bg-deep-space-rgb,5,8,10),0.9), rgba(var(--bg-deep-space-rgb,5,8,10),0.95)),
-                        url('https://images.unsplash.com/photo-1604398995466-71a95a35597a?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat fixed;
+            /* Fixed background can impact scroll performance on some devices */
+            background: linear-gradient(rgba(var(--bg-deep-space-rgb),0.9), rgba(var(--bg-deep-space-rgb),0.95)),
+                        url('https://images.unsplash.com/photo-1604398995466-71a95a35597a?auto=format&fit=crop&w=1600&q=75&fm=webp') center/cover no-repeat; /* Added webp, reduced quality */
+            /* Consider removing 'fixed' if scroll perf is an issue: */
+            /* background-attachment: scroll; */
             color: #fff; padding: 150px 0;
         }
         .advantage-section .container { position: relative; z-index: 1; text-align: center; }
-        .advantage-section h2 { color: var(--primary-glow); text-shadow: 0 0 10px rgba(var(--primary-glow-rgb,0,229,255),0.4); }
+        .advantage-section h2 { color: var(--primary-glow); text-shadow: 0 0 10px rgba(var(--primary-glow-rgb),0.4); }
         .advantage-section p {
             max-width: 850px; margin: 35px auto 50px; font-size: clamp(1.1rem, 2vw, 1.25rem);
             font-weight: 300; line-height: 1.8; color: var(--neutral-light);
@@ -282,36 +329,40 @@
         .advantage-section .advantage-graphic {
             width: 100%; max-width: 700px; height: auto;
             margin: 30px auto 0; border-radius: 15px;
-            background-color: rgba(var(--bg-tech-panel-rgb,13,18,24), 0.5);
+            background-color: rgba(var(--bg-tech-panel-rgb), 0.5);
             border: 1px solid var(--border-subtle);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2); padding: 20px;
             display: flex; align-items: center; justify-content: center;
-            min-height: 250px; /* Adjusted min-height */
+            min-height: 250px;
             color: var(--neutral-medium);
+            /* Accessibility: Replace placeholder text with actual image and alt text */
         }
 
         .contact-section {
             background: var(--bg-tech-panel);
         }
         .contact-form-container {
-            background-color: rgba(var(--bg-deep-space-rgb,5,8,10), 0.8);
+            background-color: rgba(var(--bg-deep-space-rgb), 0.8);
             backdrop-filter: blur(8px) saturate(120%);
             padding: 50px; border-radius: 15px;
             box-shadow: 0 0 0 1px var(--border-subtle), 0 10px 30px rgba(0,0,0,0.2);
         }
-        .contact-form label { display: block; margin-bottom: 12px; font-weight: 500; color: var(--primary-base); font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        /* Accessibility: Ensure label/input association */
+        .contact-form label { display: block; margin-bottom: 12px; font-weight: 500; color: var(--primary-base); font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; /* For clicking label */ }
         .contact-form input[type="text"], .contact-form input[type="email"], .contact-form textarea {
             width: 100%; padding: 18px; margin-bottom: 25px;
             border: 1px solid var(--border-subtle);
-            background-color: rgba(var(--bg-deep-space-rgb,5,8,10), 0.7);
+            background-color: rgba(var(--bg-deep-space-rgb), 0.7);
             color: var(--neutral-light); border-radius: 8px;
             font-family: var(--font-primary); font-size: 1.05rem;
             transition: border-color var(--transition-snap), box-shadow var(--transition-snap);
         }
         .contact-form input[type="text"]:focus, .contact-form input[type="email"]:focus, .contact-form textarea:focus {
             outline: none; border-color: var(--border-highlight);
-            box-shadow: 0 0 0 3px rgba(var(--primary-glow-rgb,0,229,255), 0.3), 0 0 15px rgba(var(--primary-glow-rgb,0,229,255),0.2);
+            box-shadow: 0 0 0 3px rgba(var(--primary-glow-rgb), 0.3), 0 0 15px rgba(var(--primary-glow-rgb),0.2);
         }
+        /* Accessibility: Ensure sufficient contrast for placeholder text if used */
+        .contact-form textarea::placeholder { color: var(--neutral-dark); opacity: 0.8; }
         .contact-form textarea { min-height: 150px; resize: vertical; }
         .contact-details-module {
             padding: 30px !important;
@@ -329,7 +380,7 @@
         @media (max-width: 992px) { /* Tablet */
             :root { --drone-viewport-size-desktop: var(--drone-viewport-size-tablet); }
             .main-nav ul li { margin-left: 30px; }
-            .hero-content h1 { font-size: clamp(2.8rem, 7vw, 3.5rem); } /* Adjusted clamp for tablet */
+            .hero-content h1 { font-size: clamp(2.8rem, 7vw, 3.5rem); }
             .info-module-grid { grid-template-columns: 1fr; gap: 30px; }
             .section { padding: 100px 0; }
             .advantage-section { padding: 120px 0; }
@@ -338,66 +389,67 @@
         @media (max-width: 768px) { /* Mobile */
             :root { --drone-viewport-size-desktop: var(--drone-viewport-size-mobile); }
 
-            h1, h2, h3, h4 { letter-spacing: 0.5px; } /* Reduced letter spacing */
-            h1 { font-size: clamp(2.2rem, 8vw, 2.8rem); } /* Adjusted clamp for mobile */
+            h1, h2, h3, h4 { letter-spacing: 0.5px; }
+            h1 { font-size: clamp(2.2rem, 8vw, 2.8rem); }
             h2 { font-size: clamp(1.8rem, 6vw, 2.5rem); }
             h3 { font-size: clamp(1.4rem, 5vw, 2rem); }
             p { font-size: clamp(0.9rem, 2.5vw, 1rem); }
 
-
-            .container { padding: 0 20px; } /* Reduced padding for mobile */
+            .container { padding: 0 20px; }
 
             .site-header { padding: 18px 0; }
             .site-header.scrolled { padding: 12px 0; }
-            .logo { font-size: 1.8rem; } /* Reduced logo size */
+            .logo { font-size: 1.8rem; }
 
             .main-nav ul {
                 display: none; flex-direction: column; position: fixed; top: 0; right: 0;
-                width: min(80vw, 300px); /* Adjusted width */ height: 100vh;
-                background-color: rgba(var(--bg-tech-panel-rgb,13,18,24), 0.95); /* Slightly more opaque */
+                width: min(80vw, 300px); height: 100vh;
+                background-color: rgba(var(--bg-tech-panel-rgb), 0.95);
                 backdrop-filter: blur(10px);
-                padding: 90px 25px 30px 25px; /* Adjusted padding */
+                padding: 90px 25px 30px 25px;
                 box-shadow: -10px 0 30px rgba(0,0,0,0.4);
                 transform: translateX(100%); transition: transform var(--transition-smooth);
-                overflow-y: auto; /* For many nav items */
+                overflow-y: auto;
+                z-index: 1000; /* Ensure it's below toggle button */
             }
             .main-nav ul.active { transform: translateX(0); display: flex; }
-            .main-nav ul li { margin: 0 0 20px 0; width: 100%; } /* Adjusted margin */
-            .main-nav ul li a { display: block; padding: 12px 10px; font-size: 1.1rem; } /* Adjusted padding & font */
+            .main-nav ul li { margin: 0 0 20px 0; width: 100%; }
+            .main-nav ul li a { display: block; padding: 12px 10px; font-size: 1.1rem; }
             .mobile-nav-toggle { display: block; z-index: 1005; }
 
             .hero-section { min-height: 600px; padding-top: 80px; }
             .hero-content .subtitle { font-size: clamp(0.9rem, 2.5vw, 1.2rem); }
 
-            .section { padding: 80px 0; } /* Further reduced padding */
+            .section { padding: 80px 0; }
             .section-title { margin-bottom: 50px; }
              .section-title span { font-size: clamp(3rem, 8vw, 6rem); }
 
-
             .info-module-grid { gap: 25px; }
-            .info-module { padding: 25px; } /* Reduced padding */
+            .info-module { padding: 25px; }
 
-            .advantage-section { padding: 100px 0; }
+            .advantage-section { padding: 100px 0; background-attachment: scroll; /* Disable fixed bg on mobile for perf */ }
             .advantage-section p { font-size: clamp(1rem, 2.2vw, 1.1rem); }
             .advantage-section .advantage-graphic { min-height: 200px; }
-
 
             #interactive-drone-viewport {
                 width: var(--drone-viewport-size-mobile);
                 height: var(--drone-viewport-size-mobile);
                 bottom: 15px; right: 15px;
             }
+            /* Ensure contact form layout stacks correctly */
             .contact-content { gap: 30px; flex-direction: column; }
             .contact-form-container { padding: 30px 25px; }
             .contact-form div[style*="flex:1"] {
-                min-width: 0; /* Allow to shrink */
-                flex-basis: 100% !important; /* Stack name fields */
+                min-width: 0 !important; /* Override inline style */
+                flex-basis: 100% !important; /* Override inline style */
             }
             .contact-form div[style*="gap: 30px"] {
-                flex-direction: column; gap: 0 !important; /* Stack name fields, remove their internal gap */
+                flex-direction: column !important; /* Override inline style */
+                 gap: 0 !important; /* Override inline style */
+                 margin-bottom: 0; /* Reset margin possibly caused by stacking */
             }
              .contact-form input[type="text"], .contact-form input[type="email"], .contact-form textarea {
-                padding: 15px; font-size: 1rem;
+                padding: 15px; font-size: 1rem; margin-bottom: 20px; /* Adjust margin for stacked layout */
             }
             .cta-button { padding: 15px 30px; font-size: 0.9rem; letter-spacing: 1px; }
         }
@@ -411,7 +463,7 @@
             .contact-form-container { padding: 25px 20px; }
         }
 
-
+        /* Accessibility: Screen Reader Only */
         .sr-only {
             position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
             overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0;
@@ -419,6 +471,7 @@
         .animate-on-scroll {
             opacity: 0;
             transform: translateY(30px);
+            /* Performance: Specify changing properties */
             transition: opacity 0.7s var(--transition-flow), transform 0.7s var(--transition-flow);
             transition-delay: calc(var(--stagger-index, 0) * 0.15s);
         }
@@ -431,7 +484,7 @@
             bottom: var(--drone-viewport-margin);
             left: 50%;
             transform: translateX(-50%) translateY(100%);
-            background-color: rgba(var(--bg-tech-panel-rgb,13,18,24),0.9);
+            background-color: rgba(var(--bg-tech-panel-rgb),0.9);
             color: var(--primary-glow);
             padding: 12px 25px;
             border-radius: 8px;
@@ -442,12 +495,14 @@
             letter-spacing: 1px;
             opacity: 0;
             pointer-events: none;
+            /* Performance: Specify changing properties */
             transition: opacity 0.3s ease-out, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: 0 0 15px rgba(var(--primary-glow-rgb,0,229,255),0.3);
+            box-shadow: 0 0 15px rgba(var(--primary-glow-rgb),0.3);
             border: 1px solid var(--border-highlight);
             text-align: center;
             width: max-content;
             max-width: 90%;
+            will-change: transform, opacity;
         }
         .interaction-message-overlay.visible {
             opacity: 1;
@@ -472,12 +527,13 @@
     <header class="site-header">
         <div class="container">
             <a href="#hero" class="logo">Sky<span>Wars</span></a>
-            <nav class="main-nav">
-                <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-                    <span class="sr-only">Open navigation</span>
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <nav class="main-nav" aria-label="Main Navigation">
+                <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav-list">
+                    <!-- Replaced span with direct text for better accessibility -->
+                    Open navigation
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                 </button>
-                <ul>
+                <ul id="main-nav-list">
                     <li><a href="#hero" class="active">Home</a></li>
                     <li><a href="#threat">Threatscape</a></li>
                     <li><a href="#features">Capabilities</a></li>
@@ -488,13 +544,18 @@
         </div>
     </header>
 
-    <div id="interaction-message-holder" class="interaction-message-overlay"></div>
-    <div id="interactive-drone-viewport"></div>
+    <div id="interaction-message-holder" class="interaction-message-overlay" role="status" aria-live="polite"></div>
+    <div id="interactive-drone-viewport" aria-hidden="true"></div> <!-- Decorative, hide from AT -->
 
-    <main>
+    <!-- Accessibility: Added role="main" -->
+    <main role="main">
         <section id="hero" class="hero-section">
-            <video autoplay muted loop playsinline id="hero-video-bg">
+            <video autoplay muted loop playsinline id="hero-video-bg"
+                   poster="placeholder-poster.jpg" <!-- Performance: Add poster image URL -->
+                   aria-label="Abstract futuristic background animation"> <!-- Accessibility: Basic Label -->
                 <source src="https://video.wixstatic.com/video/a089dd_f5b82e2ab4784ebdb6fd4e3517c9a11d/1080p/mp4/file.mp4" type="video/mp4">
+                <!-- Accessibility: Add captions track -->
+                <!-- <track src="captions_en.vtt" kind="captions" srclang="en" label="English"> -->
                 Your browser does not support the video tag.
             </video>
             <div class="hero-overlay"></div>
@@ -512,19 +573,20 @@
                     The rapid proliferation of drone technology creates an asymmetric threat landscape. SkyWars delivers strategic dominance.
                 </p>
                 <div class="info-module-grid">
-                    <div class="info-module animate-on-scroll" style="--stagger-index: 1;">
-                        <div class="info-module__icon">⚠️</div>
-                        <h3>Escalating Capabilities</h3>
+                    <!-- Added aria-labelledby relationships for better structure -->
+                    <div class="info-module animate-on-scroll" style="--stagger-index: 1;" aria-labelledby="threat-h3-1">
+                        <div class="info-module__icon" aria-hidden="true">⚠️</div>
+                        <h3 id="threat-h3-1">Escalating Capabilities</h3>
                         <p>Drones now feature extended range, advanced autonomy, and diverse payload capacities, demanding sophisticated, multi-layered countermeasures.</p>
                     </div>
-                    <div class="info-module animate-on-scroll" style="--stagger-index: 2;">
-                        <div class="info-module__icon">🎯</div>
-                        <h3>Expanding Vulnerabilities</h3>
+                    <div class="info-module animate-on-scroll" style="--stagger-index: 2;" aria-labelledby="threat-h3-2">
+                        <div class="info-module__icon" aria-hidden="true">🎯</div>
+                        <h3 id="threat-h3-2">Expanding Vulnerabilities</h3>
                         <p>Critical infrastructure, public events, and secure facilities are increasingly exposed, necessitating proactive and intelligent aerial defense systems.</p>
                     </div>
-                    <div class="info-module animate-on-scroll" style="--stagger-index: 3;">
-                        <div class="info-module__icon">💡</div>
-                        <h3>Strategic Imperative</h3>
+                    <div class="info-module animate-on-scroll" style="--stagger-index: 3;" aria-labelledby="threat-h3-3">
+                        <div class="info-module__icon" aria-hidden="true">💡</div>
+                        <h3 id="threat-h3-3">Strategic Imperative</h3>
                         <p>The market for advanced anti-drone solutions is rapidly growing. SkyWars leads with adaptive, AI-powered technology to secure the future.</p>
                     </div>
                 </div>
@@ -535,24 +597,24 @@
             <div class="container">
                 <h2 class="section-title animate-on-scroll">SkyWars Sentinel: Core Capabilities<span>Architecture</span></h2>
                  <div class="info-module-grid">
-                    <div class="info-module animate-on-scroll" style="--stagger-index: 1;">
-                        <div class="info-module__icon">📡</div>
-                        <h3>Cognitive Detection Matrix</h3>
+                    <div class="info-module animate-on-scroll" style="--stagger-index: 1;" aria-labelledby="feat-h3-1">
+                        <div class="info-module__icon" aria-hidden="true">📡</div>
+                        <h3 id="feat-h3-1">Cognitive Detection Matrix</h3>
                         <p>Our AI fuses data from multi-spectrum sensors (Optical, IR, RF, Acoustic) for early warning and precise threat identification up to 2.5km.</p>
                     </div>
-                    <div class="info-module animate-on-scroll" style="--stagger-index: 2;">
-                        <div class="info-module__icon">🧠</div>
-                        <h3>Predictive AI Tracking</h3>
+                    <div class="info-module animate-on-scroll" style="--stagger-index: 2;" aria-labelledby="feat-h3-2">
+                        <div class="info-module__icon" aria-hidden="true">🧠</div>
+                        <h3 id="feat-h3-2">Predictive AI Tracking</h3>
                         <p>Advanced machine learning algorithms analyze flight dynamics, predict trajectories, and maintain persistent tracking on agile targets.</p>
                     </div>
-                    <div id="drone-destruction-trigger-card" class="info-module animate-on-scroll" style="--stagger-index: 3;">
-                        <div class="info-module__icon">💥</div>
-                        <h3>Dynamic Neutralization Suite</h3>
+                    <div id="drone-destruction-trigger-card" class="info-module animate-on-scroll" style="--stagger-index: 3;" aria-labelledby="feat-h3-3">
+                        <div class="info-module__icon" aria-hidden="true">💥</div>
+                        <h3 id="feat-h3-3">Dynamic Neutralization Suite</h3>
                         <p>A scalable array of effectors, including High-Energy Lasers (HEL) and intelligent kinetic interceptors, ensure precise, low-collateral engagement.</p>
                     </div>
-                    <div class="info-module animate-on-scroll" style="--stagger-index: 4;">
-                        <div class="info-module__icon">🌍</div>
-                        <h3>Global Command Nexus</h3>
+                    <div class="info-module animate-on-scroll" style="--stagger-index: 4;" aria-labelledby="feat-h3-4">
+                        <div class="info-module__icon" aria-hidden="true">🌍</div>
+                        <h3 id="feat-h3-4">Global Command Nexus</h3>
                         <p>Secure, encrypted satellite uplink provides unified situational awareness and enables globally coordinated, automated defense responses.</p>
                     </div>
                 </div>
@@ -566,7 +628,11 @@
                     SkyWars transcends traditional defense by architecting an intelligent, adaptive ecosystem. We fuse bleeding-edge AI, global satellite superiority (Thuraya & Yahsat), and continuous R&D to deliver not just protection, but strategic aerial dominance for our clients.
                 </p>
                 <div class="advantage-graphic animate-on-scroll" style="--stagger-index: 1;">
-                   <h3 style="color: var(--neutral-medium); font-weight:400; font-size: clamp(1rem, 2.5vw, 1.2rem); padding: 0 10px;">[Conceptual Infographic: AI Core + Satellite Network + Sensor Array + Effectors]</h3>
+                   <!-- Accessibility: Replace this placeholder with a real image and descriptive alt text -->
+                   <h3 style="color: var(--neutral-medium); font-weight:400; font-size: clamp(1rem, 2.5vw, 1.2rem); padding: 0 10px;">[Conceptual Infographic Placeholder: Illustrates AI Core connected to Satellite Network, Sensor Array, and Effectors]</h3>
+                   <!-- Example if it was an image:
+                   <img src="advantage-infographic.webp" alt="Diagram showing SkyWars components: AI Core linked to Satellite Network, diverse Sensor Array, and Neutralization Effectors, demonstrating integrated aerial defense." loading="lazy">
+                   -->
                 </div>
             </div>
         </section>
@@ -575,23 +641,39 @@
             <div class="container">
                 <h2 class="section-title animate-on-scroll">Secure Your Airspace<span>Engage</span></h2>
                 <div class="contact-content" style="display:flex; flex-wrap: wrap; gap: 60px; align-items: flex-start;">
-                    <div class="contact-form-container animate-on-scroll" style="flex: 1.7; min-width: 300px;"> <!-- Adjusted min-width -->
+                    <div class="contact-form-container animate-on-scroll" style="flex: 1.7; min-width: 300px;">
                         <h3 style="text-align:center; margin-bottom: 2.5rem;">Request Strategic Consultation</h3>
-                        <form class="contact-form" id="skywarsContactForm">
-                            <div style="display:flex; gap: 30px; flex-wrap: wrap;">
-                                <div style="flex:1; min-width: 150px;"><label for="firstName">First Name*</label><input type="text" id="firstName" name="firstName" required></div>
-                                <div style="flex:1; min-width: 150px;"><label for="lastName">Last Name*</label><input type="text" id="lastName" name="lastName" required></div>
+                        <form class="contact-form" id="skywarsContactForm" noValidate> <!-- Added noValidate to allow custom handling -->
+                            <div style="display:flex; gap: 30px; flex-wrap: wrap;"> <!-- Inline styles retained but adjusted in media queries -->
+                                <div style="flex:1; min-width: 150px;">
+                                    <label for="firstName">First Name*</label>
+                                    <input type="text" id="firstName" name="firstName" required aria-required="true">
+                                </div>
+                                <div style="flex:1; min-width: 150px;">
+                                    <label for="lastName">Last Name*</label>
+                                    <input type="text" id="lastName" name="lastName" required aria-required="true">
+                                 </div>
                             </div>
-                            <div><label for="email">Corporate Email Address*</label><input type="email" id="email" name="email" required></div>
-                            <div><label for="company">Organization / Agency Name</label><input type="text" id="company" name="company"></div>
-                            <div><label for="message">Nature of Inquiry / Requirement</label><textarea id="message" name="message" placeholder="e.g., Critical infrastructure defense, Large-scale event security, Border protection..."></textarea></div>
+                            <div>
+                                <label for="email">Corporate Email Address*</label>
+                                <!-- Changed type to email for validation -->
+                                <input type="email" id="email" name="email" required aria-required="true" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+                            </div>
+                            <div>
+                                <label for="company">Organization / Agency Name</label>
+                                <input type="text" id="company" name="company">
+                            </div>
+                            <div>
+                                <label for="message">Nature of Inquiry / Requirement</label>
+                                <textarea id="message" name="message" placeholder="e.g., Critical infrastructure defense, Large-scale event security, Border protection..."></textarea>
+                             </div>
                             <button type="submit" class="cta-button" style="width:100%; margin-top:10px;">Transmit Secure Inquiry</button>
                         </form>
                     </div>
-                    <div class="contact-details-container animate-on-scroll" style="flex: 1; min-width:300px; padding-top: 15px;"> <!-- Adjusted min-width -->
+                    <div class="contact-details-container animate-on-scroll" style="flex: 1; min-width:300px; padding-top: 15px;">
                         <h3 style="text-align:center; margin-bottom: 2.5rem;">Direct Engagement Channels</h3>
                         <div class="info-module contact-details-module" style="margin-bottom:30px;">
-                            <p><strong>Encrypted Comms (WhatsApp):</strong> <a href="https://wa.me/9710589196453" target="_blank">+971 (058) 919 6453</a></p>
+                            <p><strong>Encrypted Comms (WhatsApp):</strong> <a href="https://wa.me/9710589196453" target="_blank" rel="noopener noreferrer">+971 (058) 919 6453</a></p>
                             <p><strong>Official Email Liaison:</strong> <a href="mailto:dt@skywars.blue">dt@SkyWars.blue</a></p>
                         </div>
                          <div class="info-module contact-details-module">
@@ -603,349 +685,436 @@
         </section>
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo"> <!-- Accessibility: Added role -->
         <div class="container">
             <p>© <span id="currentYear"></span> SkyWars Global Defense Systems. All Rights Reserved.</p>
             <p>Architecting the Future of Aerial Security and Threat Neutralization.</p>
         </div>
     </footer>
 
-    <script>
-        const message = "What are you doing here Sneaky developer?";
-console.log(
-  `%c${message}`,
-  `background: linear-gradient(to right, #ff416c, #ff4b2b);
-   color: white;
-   padding: 8px 16px;
-   font-size: 16px;
-   border-radius: 8px;
-   font-weight: bold;
-   display: inline-block;`
-);
+    <!-- Performance: Load JS libraries deferred -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js" defer></script>
 
-    let scene, camera, renderer, interactiveDroneModel, laserBeam, particlesGroup;
-    let isDroneActive = false, isDroneDestroyed = false, destructionTriggered = false;
+    <!-- Performance: Inline script also deferred -->
+    <script defer>
+    // Best Practice: Removed console log message for production
+    // const message = "What are you doing here Sneaky developer?";
+    // console.log(...);
 
-    const droneViewport = document.getElementById('interactive-drone-viewport');
-    const interactionMessageEl = document.getElementById('interaction-message-holder');
-    const destructionTriggerEl = document.getElementById('drone-destruction-trigger-card');
-    const siteFooterEl = document.querySelector('.site-footer');
-
-    const mousePosition = new THREE.Vector2();
-    const targetDronePosition = new THREE.Vector3();
-    const lerpFactor = 0.06;
-
-    const RgbColors = {
-        primaryGlow: { r: 0/255, g: 229/255, b: 255/255 },
-        secondaryAccent: { r: 255/255, g: 64/255, b: 129/255 }
-    };
-
-    function initInteractiveSideDrone() {
-        if (!droneViewport || typeof THREE === 'undefined') {
-            console.warn("Drone viewport or THREE.js not available.");
-            if(droneViewport) droneViewport.style.display = 'none';
-            return;
-        }
-        isDroneActive = true;
-
-        scene = new THREE.Scene();
-        const aspect = droneViewport.clientWidth / droneViewport.clientHeight;
-        camera = new THREE.PerspectiveCamera(30, aspect, 0.1, 100);
-        camera.position.set(0, 0.1, 4);
-        scene.add(camera);
-
-        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(droneViewport.clientWidth, droneViewport.clientHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        droneViewport.appendChild(renderer.domElement);
-
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-        scene.add(ambientLight);
-        const keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
-        keyLight.position.set(3, 3, 4);
-        scene.add(keyLight);
-        const fillLight = new THREE.DirectionalLight(0xaaaaff, 0.6);
-        fillLight.position.set(-3, 1, 2);
-        scene.add(fillLight);
-        const rimLight = new THREE.DirectionalLight(0xffaa88, 0.8);
-        rimLight.position.set(0, -2, -3);
-        scene.add(rimLight);
-
-        const loader = new THREE.OBJLoader();
-        loader.load('drone_costum.obj', (object) => {
-            interactiveDroneModel = object;
-            const box = new THREE.Box3().setFromObject(interactiveDroneModel);
-            const size = box.getSize(new THREE.Vector3());
-            const center = box.getCenter(new THREE.Vector3());
-            const maxDim = Math.max(size.x, size.y, size.z);
-            const desiredSize = 1.8;
-            const scale = desiredSize / maxDim;
-
-            interactiveDroneModel.scale.set(scale, scale, scale);
-            interactiveDroneModel.position.sub(center.multiplyScalar(scale));
-            interactiveDroneModel.rotation.y = Math.PI * 0.15;
-            interactiveDroneModel.rotation.x = Math.PI * 0.05;
-
-            interactiveDroneModel.traverse(child => {
-                if (child.isMesh) {
-                    child.material = new THREE.MeshStandardMaterial({
-                        color: 0xadb5bd, metalness: 0.9, roughness: 0.25,
-                        envMapIntensity: 1.0,
-                    });
-                }
-            });
-            scene.add(interactiveDroneModel);
-            targetDronePosition.copy(interactiveDroneModel.position);
-            animateInteractiveSideDrone();
-        }, undefined, (error) => {
-            console.error('Error loading drone.obj:', error);
-            if (droneViewport) droneViewport.style.display = 'none';
-            showInteractionMessage("Drone model failed to load.", 3000);
-            isDroneActive = false; // Ensure animation loop stops
-        });
-
-        const laserMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(RgbColors.secondaryAccent.r, RgbColors.secondaryAccent.g, RgbColors.secondaryAccent.b), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, side: THREE.DoubleSide });
-        const laserGeometry = new THREE.CylinderGeometry(0.02, 0.02, 1, 12);
-        laserBeam = new THREE.Mesh(laserGeometry, laserMaterial);
-        laserBeam.position.set(0, -100, 0); laserBeam.visible = false;
-        scene.add(laserBeam);
-        particlesGroup = new THREE.Group(); scene.add(particlesGroup);
-
-        window.addEventListener('resize', onDroneViewportResize, false);
-        document.addEventListener('mousemove', onDocumentMouseMove, false);
-        document.addEventListener('touchmove', onDocumentTouchMove, { passive: false }); // passive:false for preventDefault
-    }
-
-    function onDroneViewportResize() {
-        if (!isDroneActive || !camera || !renderer || !droneViewport) return;
-        
-        // Let CSS handle viewport size via media queries and variables
-        // We just need to update camera and renderer for the current clientWidth/Height
-        camera.aspect = droneViewport.clientWidth / droneViewport.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(droneViewport.clientWidth, droneViewport.clientHeight);
-    }
-
-    function onDocumentMouseMove(event) {
-        if (!isDroneActive || isDroneDestroyed || !interactiveDroneModel || !droneViewport) return;
-        // No preventDefault here, let it be natural unless it causes issues.
-        const rect = droneViewport.getBoundingClientRect();
-        if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
-            targetDronePosition.x = 0; targetDronePosition.y = 0;
-            return;
-        }
-        const x = event.clientX - rect.left; const y = event.clientY - rect.top;
-        mousePosition.x = (x / rect.width) * 2 - 1; mousePosition.y = -(y / rect.height) * 2 + 1;
-        updateTargetDronePosition();
-    }
-
-    function onDocumentTouchMove(event) {
-        if (!isDroneActive || isDroneDestroyed || !interactiveDroneModel || !droneViewport) return;
-        if (event.touches.length > 0) {
-            const touch = event.touches[0];
-            const rect = droneViewport.getBoundingClientRect();
-            if (touch.clientX >= rect.left && touch.clientX <= rect.right && touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
-                 event.preventDefault(); // Prevent scroll only if touch is within viewport
-                const x = touch.clientX - rect.left; const y = touch.clientY - rect.top;
-                mousePosition.x = (x / rect.width) * 2 - 1; mousePosition.y = -(y / rect.height) * 2 + 1;
-                updateTargetDronePosition();
-            } else {
-                targetDronePosition.x = 0; targetDronePosition.y = 0;
-            }
-        }
-    }
-
-    function updateTargetDronePosition() {
-        if (!isDroneActive || isDroneDestroyed || !interactiveDroneModel) return;
-        const moveScaleX = 0.6 * (camera.aspect || 1); // Default aspect to 1 if not set
-        const moveScaleY = 0.6;
-        targetDronePosition.x = THREE.MathUtils.clamp(mousePosition.x * moveScaleX, -0.7, 0.7);
-        targetDronePosition.y = THREE.MathUtils.clamp(mousePosition.y * moveScaleY, -0.7, 0.7);
-    }
-
-    function animateInteractiveSideDrone() {
-        if (!isDroneActive) return;
-        requestAnimationFrame(animateInteractiveSideDrone);
-        if (typeof TWEEN !== 'undefined') TWEEN.update();
-
-        if (interactiveDroneModel && !isDroneDestroyed) {
-            interactiveDroneModel.position.lerp(targetDronePosition, lerpFactor);
-            const targetQuaternion = new THREE.Quaternion();
-            const lookAtTarget = new THREE.Vector3(targetDronePosition.x * 2, targetDronePosition.y * 2, camera.position.z * 0.8);
-            interactiveDroneModel.matrixWorld.decompose(new THREE.Vector3(), targetQuaternion, new THREE.Vector3());
-            const tempMatrix = new THREE.Matrix4().lookAt(interactiveDroneModel.position, lookAtTarget, interactiveDroneModel.up);
-            targetQuaternion.setFromRotationMatrix(tempMatrix);
-            interactiveDroneModel.quaternion.slerp(targetQuaternion, 0.05);
-        }
-
-        particlesGroup.children.forEach(particle => {
-            if (!particle.userData.velocity) return;
-            particle.position.add(particle.userData.velocity);
-            particle.material.opacity -= 0.018;
-            particle.scale.multiplyScalar(0.975);
-            if (particle.material.opacity <= 0) {
-                particlesGroup.remove(particle);
-                if (particle.geometry) particle.geometry.dispose();
-                if (particle.material) particle.material.dispose();
-            }
-        });
-        if (renderer && scene && camera) renderer.render(scene, camera);
-    }
-
-    function showInteractionMessage(message, duration = 2500) {
-        if (!interactionMessageEl) return;
-        interactionMessageEl.textContent = message;
-        interactionMessageEl.classList.add('visible');
-        setTimeout(() => { interactionMessageEl.classList.remove('visible'); }, duration);
-    }
-
-    function triggerDroneDestructionSequence() {
-        if (destructionTriggered || isDroneDestroyed || !interactiveDroneModel || !laserBeam || typeof TWEEN === 'undefined') return;
-        destructionTriggered = true;
-        showInteractionMessage("TARGET LOCK ACQUIRED...", 2000);
-
-        setTimeout(() => {
-            showInteractionMessage("FIRING LASER...", 1500);
-            laserBeam.visible = true;
-            const laserStartPosInWorldSpace = new THREE.Vector3(-2.5, camera.position.y + targetDronePosition.y, camera.position.z - 2);
-            laserBeam.position.copy(laserStartPosInWorldSpace);
-
-            const droneCurrentPosInWorldSpace = interactiveDroneModel.position.clone();
-            const distance = laserStartPosInWorldSpace.distanceTo(droneCurrentPosInWorldSpace);
-            laserBeam.scale.y = distance;
-
-            laserBeam.lookAt(droneCurrentPosInWorldSpace);
-            laserBeam.rotateX(Math.PI / 2);
-
-            new TWEEN.Tween(laserBeam.material).to({ opacity: 1 }, 200)
-                .easing(TWEEN.Easing.Quadratic.Out)
-                .onComplete(() => {
-                    if (isDroneDestroyed || !interactiveDroneModel) return;
-                    showInteractionMessage("TARGET NEUTRALIZED", 2000);
-                    isDroneDestroyed = true;
-
-                    const flashMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending });
-                    const flashGeometry = new THREE.SphereGeometry(0.25, 16, 16);
-                    const impactFlash = new THREE.Mesh(flashGeometry, flashMaterial);
-                    impactFlash.position.copy(interactiveDroneModel.position); scene.add(impactFlash);
-                    new TWEEN.Tween(impactFlash.material).to({ opacity: 0 }, 350).onComplete(() => scene.remove(impactFlash)).start();
-                    new TWEEN.Tween(impactFlash.scale).to({ x:3, y:3, z:3 }, 350).start();
-
-                    for (let i = 0; i < 60; i++) {
-                        const particleColor = Math.random() > 0.4 ? new THREE.Color(RgbColors.secondaryAccent.r, RgbColors.secondaryAccent.g, RgbColors.secondaryAccent.b) : new THREE.Color(RgbColors.primaryGlow.r, RgbColors.primaryGlow.g, RgbColors.primaryGlow.b);
-                        const particleMaterial = new THREE.MeshBasicMaterial({ color: particleColor, transparent: true, opacity: 1, blending: THREE.AdditiveBlending });
-                        const particleSize = Math.random() * 0.04 + 0.01;
-                        const particleGeometry = new THREE.SphereGeometry(particleSize, 6, 6);
-                        const particle = new THREE.Mesh(particleGeometry, particleMaterial);
-                        particle.position.copy(interactiveDroneModel.position);
-                        particle.userData.velocity = new THREE.Vector3((Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.1);
-                        particlesGroup.add(particle);
-                    }
-
-                    new TWEEN.Tween(interactiveDroneModel.scale).to({ x: 0.001, y: 0.001, z: 0.001 }, 450)
-                        .easing(TWEEN.Easing.Cubic.In)
-                        .onComplete(() => {
-                            if(interactiveDroneModel) scene.remove(interactiveDroneModel);
-                            interactiveDroneModel = null;
-                            if (droneViewport) droneViewport.classList.add('destroyed');
-                        })
-                        .start();
-                    if(interactiveDroneModel) {
-                         interactiveDroneModel.traverse(child => {
-                            if(child.isMesh && child.material) {
-                                if(!child.material.transparent) child.material.transparent = true; // Ensure transparent for opacity tween
-                                new TWEEN.Tween(child.material).to({ opacity: 0 }, 450).start();
-                            }
-                        });
-                    }
-                    new TWEEN.Tween(laserBeam.material).to({ opacity: 0 }, 400).delay(200)
-                        .onComplete(() => laserBeam.visible = false).start();
-                }).start();
-        }, 500);
-    }
-
+    // Wrap all logic in DOMContentLoaded to ensure DOM is ready AND scripts are loaded (due to defer)
     document.addEventListener('DOMContentLoaded', function() {
-        const rootStyle = getComputedStyle(document.documentElement);
-        const setCssVar = (name, value) => document.documentElement.style.setProperty(name, value);
 
-        const processRgbVar = (varName) => {
-            const colorStr = rootStyle.getPropertyValue(varName)?.trim();
-            if (!colorStr) return;
-            let r, g, b;
-            if (colorStr.startsWith('#')) {
-                const hex = colorStr.substring(1);
-                r = parseInt(hex.substring(0,2), 16);
-                g = parseInt(hex.substring(2,4), 16);
-                b = parseInt(hex.substring(4,6), 16);
-            } else if (colorStr.startsWith('rgb')) {
-                const parts = colorStr.match(/rgb[a]?\((\d+),\s*(\d+),\s*(\d+)/i);
-                if (parts) { r = parseInt(parts[1]); g = parseInt(parts[2]); b = parseInt(parts[3]); }
-            }
-            if(!isNaN(r) && !isNaN(g) && !isNaN(b)) {
-                setCssVar(`--${varName.replace(/^--/, '')}-rgb`, `${r},${g},${b}`);
-            }
+        let scene, camera, renderer, interactiveDroneModel, laserBeam, particlesGroup;
+        let isDroneActive = false, isDroneDestroyed = false, destructionTriggered = false;
+
+        const droneViewport = document.getElementById('interactive-drone-viewport');
+        const interactionMessageEl = document.getElementById('interaction-message-holder');
+        const destructionTriggerEl = document.getElementById('drone-destruction-trigger-card');
+        const siteFooterEl = document.querySelector('.site-footer');
+
+        const mousePosition = new THREE.Vector2();
+        const targetDronePosition = new THREE.Vector3();
+        const lerpFactor = 0.06;
+
+        // Color values used directly in JS (already defined in CSS variables too)
+        const RgbColors = {
+            primaryGlow: { r: 0/255, g: 229/255, b: 255/255 },
+            secondaryAccent: { r: 255/255, g: 64/255, b: 129/255 }
         };
-        ['--primary-glow', '--secondary-accent', '--neutral-light', '--bg-deep-space', '--bg-tech-panel'].forEach(processRgbVar);
+
+        function initInteractiveSideDrone() {
+            // Check if libraries are loaded (important with defer)
+            if (!droneViewport || typeof THREE === 'undefined' || typeof THREE.OBJLoader === 'undefined' || typeof TWEEN === 'undefined') {
+                console.warn("Drone viewport or required THREE.js/Tween.js libraries not available yet.");
+                 if(droneViewport) droneViewport.style.display = 'none';
+                // Maybe retry after a short delay or show a persistent error
+                 showInteractionMessage("3D Engine Failed. Try Refresh.", 3000);
+                 return;
+            }
+            isDroneActive = true;
+            // ... rest of the initInteractiveSideDrone function ...
+             scene = new THREE.Scene();
+            const aspect = droneViewport.clientWidth / droneViewport.clientHeight;
+            camera = new THREE.PerspectiveCamera(30, aspect, 0.1, 100);
+            camera.position.set(0, 0.1, 4);
+            scene.add(camera);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(droneViewport.clientWidth, droneViewport.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            droneViewport.appendChild(renderer.domElement);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+            scene.add(ambientLight);
+            const keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
+            keyLight.position.set(3, 3, 4);
+            scene.add(keyLight);
+            const fillLight = new THREE.DirectionalLight(0xaaaaff, 0.6);
+            fillLight.position.set(-3, 1, 2);
+            scene.add(fillLight);
+            const rimLight = new THREE.DirectionalLight(0xffaa88, 0.8);
+            rimLight.position.set(0, -2, -3);
+            scene.add(rimLight);
+
+            const loader = new THREE.OBJLoader();
+            // Ensure 'drone_costum.obj' is accessible relative to the HTML file
+            loader.load('drone_costum.obj', (object) => {
+                interactiveDroneModel = object;
+                const box = new THREE.Box3().setFromObject(interactiveDroneModel);
+                const size = box.getSize(new THREE.Vector3());
+                const center = box.getCenter(new THREE.Vector3());
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const desiredSize = 1.8;
+                const scale = desiredSize / maxDim;
+
+                interactiveDroneModel.scale.set(scale, scale, scale);
+                interactiveDroneModel.position.sub(center.multiplyScalar(scale));
+                interactiveDroneModel.rotation.y = Math.PI * 0.15;
+                interactiveDroneModel.rotation.x = Math.PI * 0.05;
+
+                interactiveDroneModel.traverse(child => {
+                    if (child.isMesh) {
+                        child.material = new THREE.MeshStandardMaterial({
+                            color: 0xadb5bd, metalness: 0.9, roughness: 0.25,
+                            envMapIntensity: 1.0,
+                        });
+                         // Performance: Tell THREE.js the object won't change matrix manually
+                        child.matrixAutoUpdate = false;
+                        child.updateMatrix();
+                    }
+                });
+                 // Performance: Tell THREE.js the object won't change matrix manually after initial setup
+                interactiveDroneModel.matrixAutoUpdate = false;
+                interactiveDroneModel.updateMatrix();
+                scene.add(interactiveDroneModel);
+                targetDronePosition.copy(interactiveDroneModel.position);
+
+                // Start animation loop *only* after model is loaded
+                animateInteractiveSideDrone();
+
+            }, undefined, (error) => {
+                console.error('Error loading drone.obj:', error);
+                if (droneViewport) droneViewport.style.display = 'none';
+                showInteractionMessage("Drone model failed to load.", 3000);
+                isDroneActive = false;
+            });
+
+            const laserMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(RgbColors.secondaryAccent.r, RgbColors.secondaryAccent.g, RgbColors.secondaryAccent.b), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, side: THREE.DoubleSide });
+            const laserGeometry = new THREE.CylinderGeometry(0.02, 0.02, 1, 12); // Reduced segments for performance
+            laserBeam = new THREE.Mesh(laserGeometry, laserMaterial);
+            laserBeam.position.set(0, -100, 0); laserBeam.visible = false;
+             laserBeam.matrixAutoUpdate = false; // Performance
+            scene.add(laserBeam);
+            particlesGroup = new THREE.Group(); scene.add(particlesGroup);
+
+            // Initial setup calls
+            onDroneViewportResize(); // Set initial size correctly
+            window.addEventListener('resize', onDroneViewportResize, false);
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            document.addEventListener('touchmove', onDocumentTouchMove, { passive: false });
+
+        }
+
+        function onDroneViewportResize() {
+             if (!isDroneActive || !camera || !renderer || !droneViewport) return;
+             // Adjust camera aspect based on actual client dimensions
+             const width = droneViewport.clientWidth;
+             const height = droneViewport.clientHeight;
+             if (width === 0 || height === 0) return; // Avoid division by zero if hidden
+
+             camera.aspect = width / height;
+             camera.updateProjectionMatrix();
+             renderer.setSize(width, height);
+        }
+
+        function onDocumentMouseMove(event) {
+            if (!isDroneActive || isDroneDestroyed || !interactiveDroneModel || !droneViewport) return;
+            const rect = droneViewport.getBoundingClientRect();
+            // Check if mouse is actually over the viewport
+             if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
+                 // Smoothly return to center if mouse leaves
+                 targetDronePosition.x = 0; targetDronePosition.y = 0;
+                 return;
+             }
+            const x = event.clientX - rect.left; const y = event.clientY - rect.top;
+            mousePosition.x = (x / rect.width) * 2 - 1; mousePosition.y = -(y / rect.height) * 2 + 1;
+            updateTargetDronePosition();
+        }
+
+        function onDocumentTouchMove(event) {
+            if (!isDroneActive || isDroneDestroyed || !interactiveDroneModel || !droneViewport) return;
+            if (event.touches.length > 0) {
+                const touch = event.touches[0];
+                const rect = droneViewport.getBoundingClientRect();
+                 if (touch.clientX >= rect.left && touch.clientX <= rect.right && touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+                     // Only prevent scroll IF touching the drone viewport
+                     event.preventDefault();
+                    const x = touch.clientX - rect.left; const y = touch.clientY - rect.top;
+                    mousePosition.x = (x / rect.width) * 2 - 1; mousePosition.y = -(y / rect.height) * 2 + 1;
+                    updateTargetDronePosition();
+                } else {
+                     // Smoothly return to center if touch moves outside
+                    targetDronePosition.x = 0; targetDronePosition.y = 0;
+                }
+            }
+        }
+
+         function updateTargetDronePosition() {
+             if (!isDroneActive || isDroneDestroyed || !interactiveDroneModel) return;
+             const moveScaleX = 0.6 * camera.aspect;
+             const moveScaleY = 0.6;
+             // Use MathUtils.lerp for smoother transition back to center if needed, applied in animation loop
+             targetDronePosition.x = THREE.MathUtils.clamp(mousePosition.x * moveScaleX, -0.7, 0.7);
+             targetDronePosition.y = THREE.MathUtils.clamp(mousePosition.y * moveScaleY, -0.7, 0.7);
+         }
+
+
+        function animateInteractiveSideDrone() {
+            if (!isDroneActive) return; // Stop loop if not active
+            requestAnimationFrame(animateInteractiveSideDrone);
+
+            // Only update TWEEN if it exists
+            if (typeof TWEEN !== 'undefined') TWEEN.update();
+
+            if (interactiveDroneModel && !isDroneDestroyed) {
+                 // Interpolate position
+                 interactiveDroneModel.position.lerp(targetDronePosition, lerpFactor);
+
+                 // Calculate target rotation based on interpolated position
+                const targetQuaternion = new THREE.Quaternion();
+                const lookAtTarget = new THREE.Vector3(interactiveDroneModel.position.x * 1.5, interactiveDroneModel.position.y * 1.5, camera.position.z * 0.5); // Look slightly ahead based on current lerped pos
+                const tempMatrix = new THREE.Matrix4().lookAt(interactiveDroneModel.position, lookAtTarget, interactiveDroneModel.up);
+                targetQuaternion.setFromRotationMatrix(tempMatrix);
+
+                // Interpolate rotation
+                interactiveDroneModel.quaternion.slerp(targetQuaternion, 0.08); // Slightly faster slerp
+
+                // IMPORTANT: Update matrix since autoUpdate is false
+                interactiveDroneModel.updateMatrix();
+            }
+
+            // Particle animation
+             if (particlesGroup.children.length > 0) {
+                 particlesGroup.children.forEach(particle => {
+                     if (!particle.userData.velocity) return;
+                     particle.position.add(particle.userData.velocity);
+                     particle.material.opacity -= 0.018;
+                     particle.scale.multiplyScalar(0.975);
+
+                     // Update matrix since autoUpdate might be false for particles too
+                     particle.updateMatrix();
+
+                     if (particle.material.opacity <= 0) {
+                         particlesGroup.remove(particle);
+                         if (particle.geometry) particle.geometry.dispose();
+                         if (particle.material) particle.material.dispose();
+                     }
+                 });
+             }
+
+            // Only render if necessary
+            if (renderer && scene && camera) renderer.render(scene, camera);
+        }
+
+
+        function showInteractionMessage(message, duration = 2500) {
+            if (!interactionMessageEl) return;
+            interactionMessageEl.textContent = message;
+            interactionMessageEl.classList.add('visible');
+            // Use setTimeout to remove the class after duration
+            setTimeout(() => {
+                interactionMessageEl.classList.remove('visible');
+            }, duration);
+        }
+
+        function triggerDroneDestructionSequence() {
+            if (destructionTriggered || isDroneDestroyed || !interactiveDroneModel || !laserBeam || typeof TWEEN === 'undefined') return;
+            destructionTriggered = true;
+            showInteractionMessage("TARGET LOCK ACQUIRED...", 2000);
+
+             // Defer the actual firing slightly
+            setTimeout(() => {
+                 if (isDroneDestroyed || !interactiveDroneModel) return; // Check again in case state changed
+
+                 showInteractionMessage("FIRING LASER...", 1500);
+                 laserBeam.visible = true;
+                 // Laser starting from off-screen left, aligned vertically with camera's current view center
+                 const laserStartPos = new THREE.Vector3(-3, camera.position.y, camera.position.z - 1); // Adjusted start position
+                 laserBeam.position.copy(laserStartPos);
+
+                 // Target the drone's current actual position
+                 const droneCurrentPos = interactiveDroneModel.position.clone();
+                 const distance = laserStartPos.distanceTo(droneCurrentPos);
+
+                 // Scale and orient the laser cylinder
+                 laserBeam.scale.y = distance;
+                 laserBeam.lookAt(droneCurrentPos);
+                 laserBeam.rotateX(Math.PI / 2); // Align cylinder axis
+                 laserBeam.updateMatrix(); // Update matrix since autoUpdate is false
+
+                 // Fade in laser
+                 new TWEEN.Tween(laserBeam.material)
+                    .to({ opacity: 1 }, 200)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .onComplete(() => {
+                         if (isDroneDestroyed || !interactiveDroneModel) return; // Final check
+
+                         showInteractionMessage("TARGET NEUTRALIZED", 2000);
+                         isDroneDestroyed = true; // Set destroyed flag
+
+                        // Impact Flash Effect
+                         const flashMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending });
+                         const flashGeometry = new THREE.SphereGeometry(0.25, 16, 8); // Reduced segments
+                         const impactFlash = new THREE.Mesh(flashGeometry, flashMaterial);
+                         impactFlash.position.copy(interactiveDroneModel.position);
+                         impactFlash.matrixAutoUpdate = false; // Performance
+                         scene.add(impactFlash);
+                         new TWEEN.Tween(impactFlash.material).to({ opacity: 0 }, 350).onComplete(() => { scene.remove(impactFlash); flashGeometry.dispose(); flashMaterial.dispose(); }).start();
+                         new TWEEN.Tween(impactFlash.scale).to({ x:3, y:3, z:3 }, 350).onUpdate(() => impactFlash.updateMatrix()).start();
+
+
+                        // Particle Explosion
+                        const particleMaterial = new THREE.MeshBasicMaterial({ transparent: true, opacity: 1, blending: THREE.AdditiveBlending, side: THREE.DoubleSide }); // Reusable material base
+                        const particleGeometry = new THREE.SphereGeometry(1, 6, 4); // Reusable geometry base (scaled per particle)
+
+                        for (let i = 0; i < 50; i++) { // Reduced particle count slightly
+                            const pMaterial = particleMaterial.clone(); // Clone material for color/opacity changes
+                            pMaterial.color = Math.random() > 0.4 ? new THREE.Color(RgbColors.secondaryAccent.r, RgbColors.secondaryAccent.g, RgbColors.secondaryAccent.b) : new THREE.Color(RgbColors.primaryGlow.r, RgbColors.primaryGlow.g, RgbColors.primaryGlow.b);
+
+                            const particle = new THREE.Mesh(particleGeometry, pMaterial); // Use base geometry
+                            particle.position.copy(interactiveDroneModel.position);
+
+                            const scale = Math.random() * 0.04 + 0.01; // Scale the base geometry
+                            particle.scale.set(scale, scale, scale);
+
+                            particle.userData.velocity = new THREE.Vector3(
+                                (Math.random() - 0.5) * 0.1,
+                                (Math.random() - 0.5) * 0.1,
+                                (Math.random() - 0.5) * 0.1
+                            );
+                             particle.matrixAutoUpdate = false; // Performance
+                             particle.updateMatrix();
+                             particlesGroup.add(particle);
+                         }
+                         // Dispose base geometry/material after loop if no longer needed elsewhere
+                         // particleGeometry.dispose();
+                         // particleMaterial.dispose();
+
+
+                         // Animate drone disappearance (scale and fade)
+                         if (interactiveDroneModel) {
+                             interactiveDroneModel.traverse(child => {
+                                 if(child.isMesh && child.material) {
+                                     if(!child.material.transparent) child.material.transparent = true;
+                                     new TWEEN.Tween(child.material).to({ opacity: 0 }, 450).start();
+                                 }
+                             });
+                             new TWEEN.Tween(interactiveDroneModel.scale)
+                                .to({ x: 0.001, y: 0.001, z: 0.001 }, 450)
+                                .easing(TWEEN.Easing.Cubic.In)
+                                .onUpdate(() => interactiveDroneModel.updateMatrix()) // Update matrix during tween
+                                .onComplete(() => {
+                                    if(interactiveDroneModel) scene.remove(interactiveDroneModel);
+                                    // Consider disposing geometry/materials of the drone here if necessary
+                                    interactiveDroneModel = null; // Release reference
+                                    if (droneViewport) droneViewport.classList.add('destroyed');
+                                    // Potentially stop animation loop if nothing else is animating
+                                    // isDroneActive = false;
+                                })
+                                .start();
+                         }
+
+                        // Fade out laser
+                         new TWEEN.Tween(laserBeam.material)
+                            .to({ opacity: 0 }, 400)
+                            .delay(200)
+                            .onComplete(() => {
+                                laserBeam.visible = false;
+                                laserBeam.updateMatrix(); // Update matrix after changes
+                            })
+                            .start();
+
+                    }).start(); // Start laser fade-in tween
+
+            }, 500); // Delay laser firing
+        }
+
+
+        // --- General Page Logic ---
 
         const siteHeader = document.querySelector('.site-header');
         const checkFooterOverlap = () => {
-            if (!droneViewport || !siteFooterEl || droneViewport.classList.contains('destroyed')) return;
+             // Debounce or throttle this check if it causes performance issues on scroll
+             if (!droneViewport || !siteFooterEl || droneViewport.classList.contains('destroyed')) return;
             const droneRect = droneViewport.getBoundingClientRect();
             const footerRect = siteFooterEl.getBoundingClientRect();
-            if (droneRect.bottom > footerRect.top && footerRect.top < window.innerHeight) {
-                droneViewport.classList.add('hidden-by-footer');
-            } else {
-                droneViewport.classList.remove('hidden-by-footer');
-            }
+            // Check if viewport bottom edge is below the footer top edge AND footer is visible
+             if (droneRect.bottom > footerRect.top && footerRect.top < window.innerHeight) {
+                 droneViewport.classList.add('hidden-by-footer');
+             } else {
+                 droneViewport.classList.remove('hidden-by-footer');
+             }
         };
 
-        if (siteHeader) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) siteHeader.classList.add('scrolled');
-                else siteHeader.classList.remove('scrolled');
-                checkFooterOverlap();
-                updateActiveNav();
-            });
-        } else {
-             window.addEventListener('scroll', () => {
-                checkFooterOverlap();
-                updateActiveNav();
-            });
+        const headerOffset = () => {
+            // Cache header height calculation if possible, or recalculate less often
+            return siteHeader ? siteHeader.offsetHeight : 70;
         }
-        window.addEventListener('resize', () => {
-            onDroneViewportResize();
-            checkFooterOverlap();
-            updateActiveNav(); // In case resize changes section visibility
-        });
+
+        // Scroll handler for header style and footer overlap
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            // Basic debounce/throttle
+             clearTimeout(scrollTimeout);
+             scrollTimeout = setTimeout(() => {
+                  if (siteHeader) {
+                      if (window.scrollY > 50) siteHeader.classList.add('scrolled');
+                      else siteHeader.classList.remove('scrolled');
+                  }
+                  checkFooterOverlap();
+                  updateActiveNav(); // Update nav based on throttled scroll position
+             }, 50); // Adjust delay as needed
+        }, { passive: true }); // Use passive listener for scroll performance
+
+        // Resize handler
+         let resizeTimeout;
+         window.addEventListener('resize', () => {
+             clearTimeout(resizeTimeout);
+             resizeTimeout = setTimeout(() => {
+                onDroneViewportResize(); // Update drone viewport rendering
+                checkFooterOverlap();
+                updateActiveNav(); // Update nav based on new layout
+            }, 100); // Adjust delay
+         }, false);
 
 
         const navLinks = document.querySelectorAll('.main-nav a[href^="#"], .logo[href^="#"], .cta-button[href^="#hero"]');
         const sections = document.querySelectorAll('section[id]');
-        const headerOffset = () => {
-            const header = document.querySelector('.site-header');
-            return header ? header.offsetHeight : 70;
-        }
 
         navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
-                if (!targetId || targetId === "#") return; // Basic check
+                if (!targetId || targetId === "#") return;
                 const targetElement = document.querySelector(targetId);
 
                 if (targetElement) {
+                     // Calculate offset position respecting current header height
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset();
-                    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-                }
 
-                const mainNavUl = document.querySelector('.main-nav ul');
-                const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-                if (mainNavUl && mainNavUl.classList.contains('active')) {
-                    mainNavUl.classList.remove('active');
-                    if (mobileNavToggle) {
-                        mobileNavToggle.setAttribute('aria-expanded', 'false');
-                        mobileNavToggle.querySelector('svg').innerHTML = `<line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>`;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile nav if open after clicking a link
+                    const mainNavUl = document.querySelector('.main-nav ul');
+                    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+                    if (mainNavUl && mainNavUl.classList.contains('active')) {
+                         toggleMobileNav(false); // Explicitly close
                     }
                 }
             });
@@ -954,95 +1123,151 @@ console.log(
         function updateActiveNav() {
             let current = '';
             const currentScrollPos = window.pageYOffset;
-            const offset = headerOffset() + 50;
+            const offset = headerOffset() + 50; // Offset to trigger activation slightly before section top
 
             sections.forEach(section => {
                 const sectionTop = section.offsetTop - offset;
-                const sectionBottom = sectionTop + section.offsetHeight;
-                if (currentScrollPos >= sectionTop && currentScrollPos < sectionBottom) {
-                    current = section.getAttribute('id');
-                }
+                // Ensure section has height before calculating bottom
+                 if (section.offsetHeight > 0) {
+                     const sectionBottom = sectionTop + section.offsetHeight;
+                      if (currentScrollPos >= sectionTop && currentScrollPos < sectionBottom) {
+                          current = section.getAttribute('id');
+                      }
+                 }
             });
-            // If no section is "current" (e.g. at the very top or bottom of page), default or highlight first/last.
-            // For simplicity, if at top, 'hero' (or first link) should be active.
+
+            // Handle edge case: if near top of page, activate first link
             if (!current && sections.length > 0 && currentScrollPos < sections[0].offsetTop - offset) {
                  current = sections[0].getAttribute('id');
             }
+            // Handle edge case: if scrolled past last section, keep last section active
+             if (!current && sections.length > 0 && currentScrollPos >= (sections[sections.length - 1].offsetTop - offset)) {
+                 current = sections[sections.length - 1].getAttribute('id');
+             }
 
 
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 const href = link.getAttribute('href');
-                if (href && href.substring(1) === current) {
+                 // Make sure href exists and matches current ID
+                 if (href && href === `#${current}`) {
                     link.classList.add('active');
                 }
             });
-            // Ensure first link is active if no other section matches (e.g., page just loaded at top)
-            if (!document.querySelector('.main-nav a.active') && navLinks.length > 0) {
-                const firstNavLink = document.querySelector('.main-nav a[href="#hero"]');
-                if (firstNavLink) firstNavLink.classList.add('active');
-            }
+
+             // Ensure *some* link is active if possible (especially on load)
+            if (!document.querySelector('.main-nav a.active')) {
+                 const firstNavLink = document.querySelector('.main-nav a[href^="#"]'); // Find first link with #
+                 if (firstNavLink) firstNavLink.classList.add('active');
+             }
         }
+
 
         const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
         const mainNavUl = document.querySelector('.main-nav ul');
-        if(mobileNavToggle && mainNavUl) {
-            const openIcon = `<line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>`;
-            const closeIcon = `<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>`;
-            mobileNavToggle.addEventListener('click', () => {
-                const isExpanded = mainNavUl.classList.toggle('active');
-                mobileNavToggle.setAttribute('aria-expanded', isExpanded);
-                mobileNavToggle.querySelector('svg').innerHTML = isExpanded ? closeIcon : openIcon;
-            });
+        const openIconSvg = `<line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>`;
+        const closeIconSvg = `<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>`;
+        const toggleButtonText = mobileNavToggle?.firstChild; // Get the text node "Open navigation"
+
+        function toggleMobileNav(forceState) {
+             if (!mobileNavToggle || !mainNavUl || !toggleButtonText) return;
+            const currentState = mainNavUl.classList.contains('active');
+             const newState = (typeof forceState === 'boolean') ? forceState : !currentState;
+
+             mainNavUl.classList.toggle('active', newState);
+             mobileNavToggle.setAttribute('aria-expanded', newState);
+             mobileNavToggle.querySelector('svg').innerHTML = newState ? closeIconSvg : openIconSvg;
+             // Update button text for accessibility
+            toggleButtonText.textContent = newState ? 'Close navigation' : 'Open navigation';
         }
 
+        if (mobileNavToggle && mainNavUl) {
+             mobileNavToggle.addEventListener('click', () => toggleMobileNav());
+        }
+
+
+        // Scroll Animation Observer
         const scrollElements = document.querySelectorAll('.animate-on-scroll');
         if ("IntersectionObserver" in window) {
-            const observer = new IntersectionObserver((entries) => {
+            const observer = new IntersectionObserver((entries, observerInstance) => { // Pass observerInstance
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
-                        if (entry.target.id === 'drone-destruction-trigger-card' && !destructionTriggered && !isDroneDestroyed && isDroneActive && typeof triggerDroneDestructionSequence === 'function') {
-                           setTimeout(triggerDroneDestructionSequence, 700);
+
+                        // Trigger drone destruction sequence when the specific card becomes visible
+                         if (entry.target.id === 'drone-destruction-trigger-card' && !destructionTriggered && !isDroneDestroyed && isDroneActive && typeof triggerDroneDestructionSequence === 'function') {
+                            // Delay slightly to ensure card animation finishes
+                             setTimeout(triggerDroneDestructionSequence, 600);
                         }
+
+                        // Optional: Unobserve after animation if not needed again
+                        observerInstance.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1 });
+            }, {
+                threshold: 0.1 // Trigger when 10% visible
+                // rootMargin: '0px 0px -50px 0px' // Optional: trigger slightly before fully in viewport
+            });
             scrollElements.forEach(el => observer.observe(el));
-        } else { // Fallback for older browsers
+        } else {
+             // Fallback for browsers without IntersectionObserver (make all visible immediately)
             scrollElements.forEach(el => el.classList.add('is-visible'));
+            // Trigger destruction immediately in fallback (if applicable)
+             if (destructionTriggerEl && !destructionTriggered && !isDroneDestroyed && isDroneActive && typeof triggerDroneDestructionSequence === 'function') {
+                  setTimeout(triggerDroneDestructionSequence, 1000); // Delay slightly on load
+             }
         }
 
 
+        // Contact Form Handling
         const contactForm = document.getElementById('skywarsContactForm');
         if (contactForm) {
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const firstName = document.getElementById('firstName').value;
-                const email = document.getElementById('email').value; // Added email check
-                if (firstName && email) {
+                // Basic client-side validation (consider more robust library if needed)
+                let isValid = true;
+                const requiredFields = contactForm.querySelectorAll('[required]');
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        // Optional: Add visual indication of error
+                        field.style.borderColor = 'red';
+                    } else {
+                         field.style.borderColor = ''; // Reset border
+                         // Specific validation for email
+                        if (field.type === 'email' && field.pattern) {
+                             const pattern = new RegExp(field.pattern);
+                             if (!pattern.test(field.value)) {
+                                 isValid = false;
+                                 field.style.borderColor = 'red';
+                             }
+                         }
+                    }
+                });
+
+                if (isValid) {
                     showInteractionMessage('Inquiry Transmitted. Our Team Will Respond Shortly.', 3500);
-                    this.reset();
+                    // TODO: Add actual form submission logic here (e.g., fetch API call)
+                    this.reset(); // Reset form fields
+                     requiredFields.forEach(field => field.style.borderColor = ''); // Ensure borders reset
                 } else {
-                    showInteractionMessage('Please complete all required fields (*).', 3000);
+                    showInteractionMessage('Please complete all required (*) fields correctly.', 3000);
                 }
             });
         }
 
+        // Set current year in footer
         const currentYearSpan = document.getElementById('currentYear');
         if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
 
+        // Initial state checks on load
         updateActiveNav();
         checkFooterOverlap();
 
-        if (typeof THREE !== 'undefined' && typeof TWEEN !== 'undefined' && typeof THREE.OBJLoader !== 'undefined') {
-            initInteractiveSideDrone();
-        } else {
-            console.error("CRITICAL: Three.js, Tween.js, or OBJLoader.js library is not loaded.");
-            if(droneViewport) droneViewport.style.display = 'none';
-            showInteractionMessage("3D Engine Failure. Please Refresh.", 3000);
-        }
-    });
+        // Initialize the drone - slightly delayed to potentially improve TTI/FCP
+        setTimeout(initInteractiveSideDrone, 100);
+
+    }); // End DOMContentLoaded
     </script>
 
 </body>
