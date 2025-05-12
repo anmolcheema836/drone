@@ -110,8 +110,6 @@
         .event-note {
             font-weight: bold;
             color: #e67e22; /* Orange for notes */
-            /* Helps prevent awkward wrapping just before the note */
-            /* display: inline-block; */ /* Use   instead for better control */
         }
 
         /* Category Colors */
@@ -126,43 +124,28 @@
 
         .music-section {
             margin-top: 30px;
-            padding: 10px 15px; /* Adjusted padding for "thin box" */
-            border-top: none; /* Remove previous top border */
-            background-color: #1A426B; /* BRAND BLUE */
-            color: #fffff6; /* BRAND OFF-WHITE */
-            border-radius: 5px;
-            /* Ensure music section itself does not break across columns */
+            padding: 15px; /* Added padding */
+            border-top: 2px solid #ccc;
+            background-color: #f0f0f0; /* Added background for highlighting */
+            border-radius: 5px; /* Optional: for rounded corners */
+            /* Ensure music section itself does not break across columns if day-events is multicolumn */
             -webkit-column-break-inside: avoid;
             page-break-inside: avoid;
             break-inside: avoid;
         }
         .music-section h3 {
-            font-size: 1.1em; /* Slightly smaller */
-            margin-bottom: 8px;
-            margin-top: 0;
-            color: #fffff6; /* Ensure heading is white */
-            border-bottom: 1px solid #5a789a; /* Optional subtle divider */
-            padding-bottom: 5px;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            margin-top: 0; /* Adjust if padding creates too much space */
         }
         .music-section ul {
             list-style: none;
             padding: 0;
-            margin: 0;
         }
         .music-section li {
-            padding: 2px 0; /* Tighter spacing */
-            font-size: 0.85em; /* Slightly smaller */
+            padding: 3px 0;
+            font-size: 0.9em;
         }
-        /* Ensure strong text is also white */
-        .music-section strong {
-             color: #fffff6;
-        }
-         /* Style notes within music section if needed differently */
-        .music-section .event-note {
-            color: #fadfad; /* Lighter orange/yellow for contrast on blue */
-            font-style: italic;
-        }
-
 
         #downloadPdfButton {
             display: block;
@@ -184,9 +167,9 @@
 
         @media print {
             body {
-                -webkit-print-color-adjust: exact !important; /* Chrome, Safari */
-                print-color-adjust: exact !important; /* Firefox, Edge */
-                background-color: #fff !important; /* Ensure white background for print */
+                -webkit-print-color-adjust: exact; /* Chrome, Safari */
+                print-color-adjust: exact; /* Firefox, Edge */
+                background-color: #fff; /* Ensure white background for print */
                 font-size: 10pt; /* Adjust base font size for print if needed */
             }
             .timetable-container {
@@ -223,31 +206,20 @@
             .legend { display: block; page-break-after: always;} /* Legend on its own page or first page */
 
             .music-section { /* Specific print styling for music section */
-                page-break-inside: avoid !important; /* Try to keep this block from splitting */
-                margin-top: 20px;
-                padding: 8px 12px !important; /* Tighter padding for print */
-                background-color: #1A426B !important; /* BRAND BLUE */
-                color: #fffff6 !important; /* BRAND OFF-WHITE */
-                border: 1px solid #1A426B !important; /* Border same as background */
-                border-radius: 0; /* Sharp corners for print */
+                page-break-inside: avoid !important; /* Try to keep this block from splitting across pages, !important for emphasis */
+                margin-top: 20px; /* Adjust spacing for print if needed */
+                padding: 10px;
+                background-color: #e8f4f8 !important; /* Lighter highlight for print, ensure it prints */
+                border: 1px solid #ccc;
+                border-radius: 0; /* Optional: sharp corners for print */
             }
             .music-section h3 {
-                font-size: 1.0em !important; /* Adjust size */
-                color: #fffff6 !important;
-                margin-bottom: 5px !important;
-                padding-bottom: 3px !important;
-                border-bottom: 1px solid #5a789a !important; /* Lighter blue divider */
+                font-size: 1.1em; /* Slightly smaller for print if needed */
+                margin-bottom: 8px;
             }
             .music-section li {
-                font-size: 8pt !important; /* Adjust size */
-                padding: 1px 0 !important;
-            }
-            .music-section strong {
-                 color: #fffff6 !important;
-            }
-            .music-section .event-note {
-                 color: #fadfad !important; /* Lighter orange/yellow */
-                 font-style: italic !important;
+                font-size: 8.5pt; /* Slightly smaller for print if needed */
+                padding: 2px 0;
             }
         }
     </style>
@@ -274,14 +246,14 @@
 
     <!-- FRIDAY -->
     <div class="day-section">
-        <h2>FRIDAY</h2> <!-- Assuming Friday 23rd May -->
+        <h2>FRIDAY</h2> <!-- Assuming Friday 23rd May based on Sat/Sun -->
         <h3>Early Afternoon</h3>
         <div class="day-events">
             <ul>
                 <li><span class="event-color-block olive-green"></span>12:00 - 12:40: Ikigai - Finding your inner Changemaker <em class="event-location">(Darwin's Den)</em></li>
                 <li><span class="event-color-block olive-green"></span>12:00 - 15:00: Buzzard Bushcraft - Drop-in Woody Activities <em class="event-location">(Buzzard Bushcraft)</em></li>
                 <li><span class="event-color-block olive-green"></span>12:00 - 16:00: Ocean Drifters - Darwins Centre <em class="event-location">(Darwin's Den Hideout)</em></li>
-                <li><span class="event-color-block sage-green"></span>12:00 - 13:15: Karlos Santos - "Morning Flow: Awaken Your Body" Workshop <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>12:00 - 13:15: Karlos Santos - "Morning Flow: Awaken Your Body" Workshop <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block olive-green"></span>12:00 - 13:30: Nature Walk with Garry Thomas <em class="event-location">(Meet at The Info Booth)</em></li>
                 <li><span class="event-color-block sage-green"></span>12:15 - 13:15: Sound Journey with Stuart & Jennifer <em class="event-location">(Shiva Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>12:15 - 13:15: Acro Yoga <em class="event-location">(Shakti Yoga Tent)</em></li>
@@ -299,7 +271,7 @@
                 <li><span class="event-color-block amber-yellow"></span>13:00 - 13:45: Tabata with Hayley <em class="event-location">(Fitness Studio 2)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>13:00 - 14:00: Nordic Walking</li>
                 <li><span class="event-color-block terracotta"></span>13:00 - 13:30: Skin Deep: The Nutrition Connection - Good Sense Superfoods <em class="event-location">(Chef's Kitchen Stage)</em></li>
-                <li><span class="event-color-block lavender"></span>13:00 - 16:00: Spoon Carving with Lee John Phillips <em class="event-location">(Arts and Craft)</em><span class="event-note"> £10</span></li>
+                <li><span class="event-color-block lavender"></span>13:00 - 16:00: Spoon Carving with Lee John Phillips <em class="event-location">(Arts and Craft)</em> <span class="event-note">£10</span></li>
                 <li><span class="event-color-block deep-plum"></span>13:00 - 13:45: Rewriting the Midlife Narrative <em class="event-location">(Talk Tent)</em></li>
                 <li><span class="event-color-block olive-green"></span>13:00 - 13:45: Building a Hydrogen Kingdom <em class="event-location">(Darwin's Den)</em></li>
                 <li><span class="event-color-block lavender"></span>13:00 - 16:00: Drop in Willow Weaving <em class="event-location">(Arts and Craft)</em></li>
@@ -308,8 +280,8 @@
                 <li><span class="event-color-block sage-green"></span>13:30 - 14:30: Bodywork with Jambo Dragon <em class="event-location">(Shakti Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>13:30 - 14:30: Yoga for Women with Caia Cappasso <em class="event-location">(Om Yoga Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>13:30 - 14:30: Family Constellations <em class="event-location">(Feel Good Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>13:45 - 15:00: Awakening the Third Eye <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block sage-green"></span>14:00 - 15:00: Aerial Hoop <em class="event-location">(Soul Space)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>13:45 - 15:00: Awakening the Third Eye <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block sage-green"></span>14:00 - 15:00: Aerial Hoop <em class="event-location">(Soul Space)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block lavender"></span>14:00 - 15:00: Flower Crown Making <em class="event-location">(Arts and Craft)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>14:00 - 15:30: Fitness Challenge - Drop In <em class="event-location">(by Fitness Tent 2)</em></li>
                 <li><span class="event-color-block sage-green"></span>14:00 - 15:00: Om Chanting and Yoga Flow <em class="event-location">(Shiva Yoga Tent)</em></li>
@@ -324,7 +296,7 @@
                 <li><span class="event-color-block deep-plum"></span>15:00 - 15:45: This Body, This Life - Ella Mace & What Laura Loves <em class="event-location">(Talk Tent)</em></li>
                 <li><span class="event-color-block lavender"></span>15:00 - 15:45: Group Art Session with Gemma Longworth <em class="event-location">(Art and Craft 1)</em></li>
                 <li><span class="event-color-block blush-pink"></span>15:00 - 16:00: Fawe Movement <em class="event-location">(Feel Good Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>15:00 - 16:00: Healing Cacao <em class="event-location">(Jiva Tent)</em><span class="event-note"> £ (Fully Booked)</span></li>
+                <li><span class="event-color-block sage-green"></span>15:00 - 16:00: Healing Cacao <em class="event-location">(Jiva Tent)</em> <span class="event-note">£ (Fully Booked)</span></li>
                 <li><span class="event-color-block olive-green"></span>15:00 - 16:00: The 5 R's That Could Change Your Life <em class="event-location">(Darwin's Den)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>15:00 - 16:00: Ravekick <em class="event-location">(Fitness Studio 1)</em></li>
                 <li><span class="event-color-block sage-green"></span>15:00 - 16:00: Spread Your Wings Yoga with Rose Fisher <em class="event-location">(Om Yoga Tent)</em></li>
@@ -332,14 +304,14 @@
                 <li><span class="event-color-block sage-green"></span>15:30 - 16:15: Plant medicine <em class="event-location">(Ganesh Talk Tent)</em></li>
                 <li><span class="event-color-block terracotta"></span>15:30 - 16:15: Healthy Chinese Cookery - Kwoklyn Wan <em class="event-location">(Chef's Kitchen Stage)</em></li>
                 <li><span class="event-color-block olive-green"></span>15:30 - 16:30: Sensory Walk and Hapa Zone <em class="event-location">(Buzzard Bushcraft)</em></li>
-                <li><span class="event-color-block sage-green"></span>15:30 - 17:00: Gua Sha Glow <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>15:30 - 17:00: Gua Sha Glow <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block sage-green"></span>15:30 - 17:00: Vinyasa Power Flow <em class="event-location">(Shiva Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>15:30 - 16:30: Aerial Hoop Adults <em class="event-location">(Soul Space)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>15:30 - 16:30: Aerial Hoop Adults <em class="event-location">(Soul Space)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block olive-green"></span>16:00 - 16:40: Moral Fibres - How Fast Is Your Fashion <em class="event-location">(Darwin's Den)</em></li>
                 <li><span class="event-color-block blush-pink"></span>16:00 - 17:30: Xanadu - Q & A Adult Only Venue <em class="event-location">(Xanadu)</em></li>
                 <li><span class="event-color-block deep-plum"></span>16:00 - 16:45: Unshakable Confidence <em class="event-location">(Talk Tent)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>16:00 - 16:45: Fitsteps Latin and Ballroom without Partners <em class="event-location">(Fitness Studio 1)</em></li>
-                <li><span class="event-color-block blush-pink"></span>15:30 - 16:30: Make Friends with Nature - Billie Rose <em class="event-location">(Experience Tent)</em></li> <!-- This time overlaps slightly, kept as provided -->
+                <li><span class="event-color-block blush-pink"></span>15:30 - 16:30: Make Friends with Nature - Billie Rose <em class="event-location">(Experience Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>16:30 - 17:30: Conscious Touch <em class="event-location">(Feel Good Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>16:30 - 17:30: Making Friends with nature - connecting to the Plant Kingdom <em class="event-location">(Experience Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>16:30 - 17:15: How to Befriend Discomfort and Flow into Aliveness <em class="event-location">(Ganesh Talk Tent)</em></li>
@@ -347,9 +319,9 @@
                 <li><span class="event-color-block terracotta"></span>17:00 - 17:45: Our Relationship with Food - Elle Mace Nutrition Coach <em class="event-location">(Chef's Kitchen Stage)</em></li>
                 <li><span class="event-color-block deep-plum"></span>17:00 - 17:45: How to Be F*cking Happy <em class="event-location">(Talk Tent)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>17:00 - 17:45: Body Balance <em class="event-location">(Fitness Studio 1)</em></li>
-                <li><span class="event-color-block sage-green"></span>17:00 - 18:00: Aerial Hoop for Adults <em class="event-location">(Soul Space)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>17:00 - 18:00: Aerial Hoop for Adults <em class="event-location">(Soul Space)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block sage-green"></span>17:15 - 18:45: Kundalini and the Chakras - Energetic Inner Journey <em class="event-location">(Shakti Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>17:15 - 18:45: Luisa Bradshaw-White - Ecstatic Dance with Ceremonial Cacao <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>17:15 - 18:45: Luisa Bradshaw-White - Ecstatic Dance with Ceremonial Cacao <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block sage-green"></span>17:30 - 18:30: Soulful Stretch with Kate Carnell <em class="event-location">(Shiva Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>17:45 - 18:30: Reasons to be Cheerful with Mark Shayler <em class="event-location">(Ganesh Talk Tent)</em></li>
             </ul>
@@ -369,7 +341,7 @@
                 <li><span class="event-color-block blush-pink"></span>19:00 - 20:00: Solo Travellers Meet-Up <em class="event-location">(Feel Good Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>19:00 - 20:00: Kirtan with Shivani Mair <em class="event-location">(Shakti Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>19:00 - 20:30: Shakti Rising - Kundalini Yoga <em class="event-location">(Shiva Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>19:15 - 20:30: Return to Awareness Cacao & Sound Journey <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>19:15 - 20:30: Return to Awareness Cacao & Sound Journey <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
             </ul>
         </div>
 
@@ -388,19 +360,19 @@
     <!-- SATURDAY -->
     <div class="day-section">
         <h2>SATURDAY - 24TH MAY</h2>
-        <h3>Early Morning</h3>
+        <h3>Early Morning</h3> <!-- NOTE: Data provided starts at 06:30 -->
         <div class="day-events">
             <ul>
                 <li><span class="event-color-block sage-green"></span>06:30 - 07:30: The 5 Element Form with Alex Mitchell <em class="event-location">(Om Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>06:30 - 07:30: Yin Yoga with Rhian <em class="event-location">(Shakti Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>07:00 - 08:15: Karla Santos - The Buccal Lift: Sculpt & Release Workshop <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>07:00 - 08:15: Karla Santos - The Buccal Lift: Sculpt & Release Workshop <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block sage-green"></span>07:00 - 08:30: Dynamic Hatha with Bryony Noble <em class="event-location">(Shiva Yoga Tent)</em></li>
                 <li><span class="event-color-block olive-green"></span>07:00 - 10:00: Forest Bathing <em class="event-location">(Forest Bathing)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>08:00 - 08:50: Morning Run <em class="event-location">(Fitness Studio 2)</em></li>
                 <li><span class="event-color-block sage-green"></span>08:00 - 09:00: Wudang Tai Chi <em class="event-location">(Om Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>08:00 - 09:30: Vitality Boost Flow - Meni Farkash <em class="event-location">(Shakti Yoga Tent)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>08:00 - 09:30: Sundance - Morning Dance Party for everyone <em class="event-location">(Fitness Studio 1)</em></li>
-                <li><span class="event-color-block sage-green"></span>08:45 - 10:00: Create a Vision Board Workshop <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>08:45 - 10:00: Create a Vision Board Workshop <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
             </ul>
         </div>
         <h3>Morning Activities</h3>
@@ -423,33 +395,33 @@
                 <li><span class="event-color-block blush-pink"></span>10:00 - 11:30: Let's Talk About Sex - Emma Sayle and Polly Hazlewood <em class="event-location">(Xanadu - Adult Only)</em></li>
                 <li><span class="event-color-block terracotta"></span>10:00 - 10:45: Eat Well To Age Well - Dr Alka Patel <em class="event-location">(Chef's Kitchen Stage)</em></li>
                 <li><span class="event-color-block olive-green"></span>10:00 - 12:00: Sensory Walk & Hapa Zone Scavenger Hunt <em class="event-location">(Buzzard Bushcraft)</em></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Crown Workshop <em class="event-location">(Art and Craft 1)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block olive-green"></span>10:00 - 12:30: Spoon Carving Adults 16+ <em class="event-location">(Buzzard Bushcraft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Spoon Carving Adults 16+ - Lee John Phillips <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Crown Workshop <em class="event-location">(Art and Craft 1)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block olive-green"></span>10:00 - 12:30: Spoon Carving Adults 16+ <em class="event-location">(Buzzard Bushcraft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Spoon Carving Adults 16+ - Lee John Phillips <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block lavender"></span>10:00 - 12:30: Drop-in Arts & Crafts Table - Adults Only <em class="event-location">(Arts and Craft)</em></li>
                 <li><span class="event-color-block lavender"></span>10:00 - 12:30: Drop-in Arts & Crafts Table - Kids Only <em class="event-location">(Arts and Craft 2)</em></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Natural Dyes Workshop - Sian Lester <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Dorset Buttons Workshop - Kat Ellis <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Charcoal Drawing Workshop - Louise Burdett <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Macramé Workshop - Ella Hobby <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Book Binding Workshop - Oscar <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Drop Casting Jewellery - Jemma Slade <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Silver Rings Workshop - Jasmine Frank <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Intaglio Printing Workshop - Diana R Brook <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Natural Dyes Workshop - Sian Lester <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Dorset Buttons Workshop - Kat Ellis <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Charcoal Drawing Workshop - Louise Burdett <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Macramé Workshop - Ella Hobby <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Book Binding Workshop - Oscar <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Drop Casting Jewellery - Jemma Slade <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Silver Rings Workshop - Jasmine Frank <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 12:30: Intaglio Printing Workshop - Diana R Brook <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block deep-plum"></span>10:00 - 10:45: It's Them, Not You - Josh Connolly <em class="event-location">(Talk Tent)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>10:00 - 10:45: Lift & Let Go - Amber Lort-Phillips <em class="event-location">(Fitness Studio 1)</em></li>
                 <li><span class="event-color-block olive-green"></span>10:00 - 12:00: Axe Throwing - Drop In <em class="event-location">(Tangled Woods)</em></li>
                 <li><span class="event-color-block sage-green"></span>10:00 - 10:45: A Meditation Written Just For You - Donna Ashworth <em class="event-location">(Shakti Yoga Tent)</em></li>
                 <li><span class="event-color-block olive-green"></span>10:00 - 16:00: Marine Medley <em class="event-location">(Darwin Hide Out)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>10:00 - 10:45: HIIT Your Limits <em class="event-location">(Fitness Studio 2)</em></li>
-                <li><span class="event-color-block blush-pink"></span>10:00 - 16:00: Willow Weaving Drop In <em class="event-location">(Feel Good Field)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block blush-pink"></span>10:00 - 16:00: Willow Weaving Drop In <em class="event-location">(Feel Good Field)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block blush-pink"></span>10:30 - 11:00: Mindful Juggling Workshop - Life Juggling <em class="event-location">(Lower Walled Garden)</em></li>
                 <li><span class="event-color-block sage-green"></span>10:30 - 11:30: Indian Classical Dance - Somita Bosak <em class="event-location">(Shiva Yoga Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>10:30 - 11:30: How to Really Go with the Flow Workshop <em class="event-location">(Experience Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>10:30 - 12:00: Bodywork to Unknot Your Back <em class="event-location">(Shakti Yoga Tent)</em></li>
                 <li><span class="event-color-block olive-green"></span>10:30 - 12:00: Nature and Foraging Walk with Garry Thomas <em class="event-location">(Meet at the Info Booth)</em></li>
                 <li><span class="event-color-block sage-green"></span>10:30 - 12:00: Happy Heart Flow with Fizz Yasin <em class="event-location">(Om Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>10:30 - 11:45: Facial Yoga Lift with Crystal Domes - The Skin Whisper <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>10:30 - 11:45: Facial Yoga Lift with Crystal Domes - The Skin Whisper <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block blush-pink"></span>10:30 - 11:30: Ecstatic Dance with Indigo <em class="event-location">(The Feel Good Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>10:45 - 11:30: Building your Inner Calm - Leanne Bird <em class="event-location">(Ganesh Talk Tent)</em></li>
             </ul>
@@ -469,11 +441,11 @@
                 <li><span class="event-color-block terracotta"></span>12:00 - 12:45: Cooking Through Menopause - Kate Rowe-Ham & Kwoklyn Wan <em class="event-location">(Chef's Kitchen Stage)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>12:00 - 12:45: Pound Unplugged with Claire Kite <em class="event-location">(Fitness Studio 1)</em></li>
                 <li><span class="event-color-block blush-pink"></span>12:00 - 13:00: Joyful Harmony Singing - Luna and Virgil <em class="event-location">(Experience Tent)</em></li>
-                <li><span class="event-color-block blush-pink"></span>12:00 - 12:00: Energy Orgasm <em class="event-location">(Feel Good Tent)</em></li> <!-- Note: Time still 12:00-12:00 -->
+                <li><span class="event-color-block blush-pink"></span>12:00 - 12:00: Energy Orgasm <em class="event-location">(Feel Good Tent)</em></li> <!-- Time needs correction -->
                 <li><span class="event-color-block sage-green"></span>12:00 - 13:00: Unlock the True Power of Pranayamas - Deepika <em class="event-location">(Shiva Yoga Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>12:00 - 13:30: Why Orgasms Are Good for Health - Prof. Joyce Harper <em class="event-location">(Xanadu - Adults Only)</em></li>
                 <li><span class="event-color-block sage-green"></span>12:00 - 12:45: Plant Medicine - Kate Schenk & Matty Muscaria <em class="event-location">(Ganesh Talk Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>12:15 - 12:30: Cacao and Sound Healing Ceremony: Journey to Spirit Guides <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li> <!-- Note: Time still 15 mins -->
+                <li><span class="event-color-block sage-green"></span>12:15 - 12:30: Cacao and Sound Healing Ceremony: Journey to Spirit Guides <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li> <!-- Time seems short -->
             </ul>
         </div>
          <h3>Afternoon Classes</h3>
@@ -500,13 +472,13 @@
                 <li><span class="event-color-block olive-green"></span>14:00 - 14:45: Sensory Walk & Hapa Zone Scavenger Hunt <em class="event-location">(Buzzard Bushcraft)</em></li>
                 <li><span class="event-color-block olive-green"></span>14:00 - 14:45: Diversify Your Outdoors <em class="event-location">(Darwin's Den)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>14:00 - 14:45: Latin Line Dance with Kim <em class="event-location">(Fitness Studio 1)</em></li>
-                <li><span class="event-color-block lavender"></span>14:00 - 15:00: Spoon Carving with Lee John Phillips <em class="event-location">(Arts and Craft)</em><span class="event-note"> £10</span></li>
+                <li><span class="event-color-block lavender"></span>14:00 - 15:00: Spoon Carving with Lee John Phillips <em class="event-location">(Arts and Craft)</em> <span class="event-note">£10</span></li>
                 <li><span class="event-color-block lavender"></span>14:00 - 15:00: Drop-In Art for Young Artists - Daisy Hâf <em class="event-location">(Kids Art Tent)</em></li>
-                <li><span class="event-color-block lavender"></span>14:00 - 15:00: Intaglio Printing - Diana R Brook <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block lavender"></span>14:00 - 15:00: Intaglio Printing - Diana R Brook <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block blush-pink"></span>14:00 - 15:30: The Pleasure Circuit: Awakening Energy Through Breath and Flow <em class="event-location">(Xanadu - Adult Only)</em></li>
                 <li><span class="event-color-block aqua-blue"></span>14:00 - 15:30: Water Safety Workshop with Wild Swim Wales <em class="event-location">(On The Water)</em></li>
-                <li><span class="event-color-block sage-green"></span>14:00 - 16:00: Luisa Bradshaw-White - Ecstatic Dance with Ceremonial Cacao <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block sage-green"></span>14:00 - 15:00: Aerial Silks Adults <em class="event-location">(Soul Space)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>14:00 - 16:00: Luisa Bradshaw-White - Ecstatic Dance with Ceremonial Cacao <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block sage-green"></span>14:00 - 15:00: Aerial Silks Adults <em class="event-location">(Soul Space)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block sage-green"></span>14:15 - 15:00: How to Dissolve Your Shame <em class="event-location">(Ganesh Talk Tent)</em></li>
                 <li><span class="event-color-block deep-plum"></span>15:00 - 15:45: Happy Hormones <em class="event-location">(Talk Tent)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>15:00 - 15:45: Rockbox with Sam and Jo <em class="event-location">(Fitness Studio 1)</em></li>
@@ -522,13 +494,13 @@
                 <li><span class="event-color-block sage-green"></span>15:00 - 16:00: Acro Yoga <em class="event-location">(Om Yoga Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>15:00 - 16:00: Songwriting with Avril <em class="event-location">(The Magic Teapot)</em></li>
                 <li><span class="event-color-block sage-green"></span>15:15 - 16:00: Your Manifestation Frequency - Louise George <em class="event-location">(Ganesh Talk Tent)</em></li>
-                <li><span class="event-color-block blush-pink"></span>15:00 - 17:00: Healing Hands Workshop with Yumiko Asakura <em class="event-location">(Walled Garden Spa)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block blush-pink"></span>15:00 - 17:00: Healing Hands Workshop with Yumiko Asakura <em class="event-location">(Walled Garden Spa)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block sage-green"></span>15:30 - 17:00: Tai Chi - Liz Thomas <em class="event-location">(Shiva Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>15:30 - 16:30: Aerial Silks Adults <em class="event-location">(Soul Space)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>15:30 - 16:30: Aerial Silks Adults <em class="event-location">(Soul Space)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block olive-green"></span>15:30 - 17:00: Buzzard Bushcraft - Drop-in Woody Activities <em class="event-location">(Buzzard Bushcraft)</em></li>
              </ul>
         </div>
-        <h3>Late Afternoon / Evening</h3> <!-- Combining these -->
+        <h3>Late Afternoon / Evening</h3> <!-- Combining these from source -->
         <div class="day-events">
            <ul>
                 <li><span class="event-color-block amber-yellow"></span>16:00 - 16:45: Standing Pilates - Lucy Cummings <em class="event-location">(Fitness Studio 2)</em></li>
@@ -539,14 +511,14 @@
                 <li><span class="event-color-block sage-green"></span>16:15 - 17:00: What is Quiet ADHD? Gabrielle Treanor and Toni Jones <em class="event-location">(Ganesh Talk Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>16:30 - 17:30: Sound Journey - Stuart & Jennifer <em class="event-location">(Shakti Yoga Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>16:30 - 17:30: Inhale Warrior, Exhale Worries - Eloise Lambert <em class="event-location">(Feel Good Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>16:30 - 17:45: Grounding with Gem - Sacred Feminine Flow & Womb Healing <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>16:30 - 17:45: Grounding with Gem - Sacred Feminine Flow & Womb Healing <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block blush-pink"></span>16:30 - 17:30: Exploring Dating <em class="event-location">(Experience Tent)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>16:30 - 17:15: Day Rave with James Haskell <em class="event-location">(Main Stage)</em></li>
                 <li><span class="event-color-block deep-plum"></span>17:00 - 17:45: Life in Your 50s, 60s, 70s and Beyond <em class="event-location">(Talk Tent)</em></li>
                 <li><span class="event-color-block terracotta"></span>17:00 - 17:45: The Art of Cake & Comfort - Kerry Hemms <em class="event-location">(Chef's Kitchen Stage)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>17:00 - 17:45: Clubbercise with Nicola Fulin <em class="event-location">(Fitness Studio 1)</em></li>
                 <li><span class="event-color-block sage-green"></span>17:00 - 18:00: Backbends with Simon Halliday <em class="event-location">(Om Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>17:00 - 18:00: Aerial Silks Adults <em class="event-location">(Soul Space)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>17:00 - 18:00: Aerial Silks Adults <em class="event-location">(Soul Space)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block sage-green"></span>17:30 - 18:15: Using Alchemy In Daily Life - Yumiko <em class="event-location">(Ganesh Talk Tent)</em></li>
                 <li><span class="event-color-block aqua-blue"></span>17:30 - 18:30: Wild Swimming & Cold Water Immersion Cosy Chat Q&A <em class="event-location">(On The Water)</em></li>
                 <li><span class="event-color-block sage-green"></span>17:30 - 18:30: Find Your Inner Calm (Breathwork with Anna Gough) <em class="event-location">(Shiva Yoga Tent)</em></li>
@@ -556,9 +528,11 @@
                 <li><span class="event-color-block blush-pink"></span>18:00 - 19:00: Rhythm and Drum Session <em class="event-location">(Feel Good Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>18:00 - 19:00: Comedy Improvisation <em class="event-location">(Experience Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>18:00 - 19:15: 5 Tibetan Moves for Youthful Flow with Kim Ingleby <em class="event-location">(Shakti Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>18:15 - 20:15: Renewal: A Multi-Sensory Journey - Cassie Watts / Luisa Bradshaw-White / Yoga Junkie <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
-                 <li><span class="event-color-block sage-green"></span>18:30 - 19:30: Shadow Work: Your Ego is Sabotaging You <em class="event-location">(Ganesh Talk Tent)</em></li>
+                <li><span class="event-color-block sage-green"></span>18:15 - 20:15: Renewal: A Multi-Sensory Journey - Cassie Watts / Luisa Bradshaw-White / Yoga Junkie <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block sage-green"></span>18:30 - 19:00: Cirque de Silk Performance <em class="event-location">(Soul Space)</em></li> <!-- Duplicate? -->
+                <li><span class="event-color-block sage-green"></span>18:30 - 19:30: Shadow Work: Your Ego is Sabotaging You <em class="event-location">(Ganesh Talk Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>18:30 - 19:30: Kundalini Yoga <em class="event-location">(Om Yoga Tent)</em></li>
+                <li><span class="event-color-block sage-green"></span>18:30 - 19:30: Find Your Inner Calm (Breathwork with Anna Gough) <em class="event-location">(Shiva Yoga Tent)</em></li> <!-- Duplicate -->
                 <li><span class="event-color-block blush-pink"></span>19:00 - 20:00: Solo Travellers Meet-Up <em class="event-location">(Feel Good Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>20:00 - 21:30: Bhakti Yogi Collective <em class="event-location">(Shakti Yoga Tent)</em></li>
             </ul>
@@ -588,13 +562,13 @@
                 <li><span class="event-color-block sage-green"></span>06:30 - 07:30: Happy Heart Flow with Fizz Yasin <em class="event-location">(Shakti Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>06:30 - 07:30: The Dance of the 3 Warriors with Alex Mitchell <em class="event-location">(Om Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>06:30 - 07:30: Wake Up Flow <em class="event-location">(Shiva Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>07:00 - 08:15: Karla Santos - The Detox Blueprint: Supporting Your Body's Natural Systems <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>07:00 - 08:15: Karla Santos - The Detox Blueprint: Supporting Your Body's Natural Systems <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block amber-yellow"></span>08:00 - 08:50: Morning Run <em class="event-location">(Fitness Studio 2)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>08:00 - 08:45: Morning Pilates <em class="event-location">(Fitness Studio 1)</em></li>
                 <li><span class="event-color-block sage-green"></span>08:00 - 09:00: Men's Yoga <em class="event-location">(Shakti Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>08:00 - 09:00: Hatha - Finding Madhya with Sam Feltham <em class="event-location">(Shiva Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>08:00 - 09:00: Wudang Tai Chi <em class="event-location">(Om Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>08:45 - 10:00: Yogatilikam Deepika Giri - Healing Pranyamas <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>08:45 - 10:00: Yogatilikam Deepika Giri - Healing Pranyamas <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
              </ul>
         </div>
         <h3>Morning Activities</h3>
@@ -621,27 +595,27 @@
                 <li><span class="event-color-block terracotta"></span>10:00 - 10:45: Learn How To Make The Perfect Allergen Friendly Poke Bowl <em class="event-location">(Chef's Kitchen Stage)</em></li>
                 <li><span class="event-color-block olive-green"></span>10:00 - 12:00: Sensory Walk & Hapa Zone Scavenger Hunt <em class="event-location">(Buzzard Bushcraft)</em></li>
                 <li><span class="event-color-block olive-green"></span>10:00 - 10:40: Seaweed is Our New Superhero! <em class="event-location">(Darwin's Den)</em></li>
-                <li><span class="event-color-block olive-green"></span>10:00 - 11:30: Spoon Carving (Adults 16+) Buzzard Bushcraft Chris <em class="event-location">(Buzzard Bushcraft)</em><span class="event-note"> £10</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 12:00: Spoon Carving with Lee John Phillips <em class="event-location">(Arts and Craft)</em><span class="event-note"> £10</span></li>
+                <li><span class="event-color-block olive-green"></span>10:00 - 11:30: Spoon Carving (Adults 16+) Buzzard Bushcraft Chris <em class="event-location">(Buzzard Bushcraft)</em> <span class="event-note">£10</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 12:00: Spoon Carving with Lee John Phillips <em class="event-location">(Arts and Craft)</em> <span class="event-note">£10</span></li>
                 <li><span class="event-color-block lavender"></span>10:00 - 12:00: Drop-In Art for Young Artists - Daisy Hâf <em class="event-location">(Kids Art Tent)</em></li>
                 <li><span class="event-color-block lavender"></span>10:00 - 11:30: Drop-In Arts & Crafts Table - Adults Only <em class="event-location">(Arts and Craft)</em></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Natural Dyes Workshop - Sian Lester <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 11:00: Dorset Buttons Workshop - Kat Ellis <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Charcoal Drawing Workshop - Louise Burdett <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Macramé Workshop - Ella Hobby <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Book Binding Workshop - Oscar <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Drop Casting (Jewellery) Workshop - Jemma Slade <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Silver Rings Workshop - Jasmine Frank <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block lavender"></span>10:00 - 12:00: Intaglio Printing Workshop - Diana R Brook <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Natural Dyes Workshop - Sian Lester <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 11:00: Dorset Buttons Workshop - Kat Ellis <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Charcoal Drawing Workshop - Louise Burdett <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Macramé Workshop - Ella Hobby <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Book Binding Workshop - Oscar <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Drop Casting (Jewellery) Workshop - Jemma Slade <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 11:30: Silver Rings Workshop - Jasmine Frank <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block lavender"></span>10:00 - 12:00: Intaglio Printing Workshop - Diana R Brook <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block amber-yellow"></span>10:00 - 10:45: Zuui - Scott Lee Morris <em class="event-location">(Fitness Studio 2)</em></li>
                 <li><span class="event-color-block olive-green"></span>10:00 - 15:00: Incredible Invertebrates with The Darwin Centre <em class="event-location">(Darwin's Den Hideout)</em></li>
-                <li><span class="event-color-block sage-green"></span>10:00 - 11:00: Aerial Silks Kids <em class="event-location">(Soul Space)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>10:00 - 11:00: Aerial Silks Kids <em class="event-location">(Soul Space)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block deep-plum"></span>10:00 - 10:45: Retirement Rebel <em class="event-location">(Talk Tent)</em></li>
-                <li><span class="event-color-block blush-pink"></span>10:00 - 13:00: Beautiful Transformation by Alchemy with Yumiko Asakura <em class="event-location">(Walled Garden Spa)</em><span class="event-note"> £</span></li>
-                <li><span class="event-color-block blush-pink"></span>10:00 - 16:00: Drop In Willow Weaving <em class="event-location">(The Feel Good Field)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block blush-pink"></span>10:00 - 13:00: Beautiful Transformation by Alchemy with Yumiko Asakura <em class="event-location">(Walled Garden Spa)</em> <span class="event-note">£</span></li>
+                <li><span class="event-color-block blush-pink"></span>10:00 - 16:00: Drop In Willow Weaving <em class="event-location">(The Feel Good Field)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block blush-pink"></span>10:30 - 11:15: Mindful Juggling <em class="event-location">(Lower Walled Garden)</em></li>
                 <li><span class="event-color-block blush-pink"></span>10:30 - 11:30: Ecstatic Dance with Indigo <em class="event-location">(Feel Good Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>10:30 - 11:45: The Skin Whisper - Facial Mapping Secrets <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>10:30 - 11:45: The Skin Whisper - Facial Mapping Secrets <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block blush-pink"></span>10:30 - 11:30: Comedy Improvisation <em class="event-location">(Experience Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>10:45 - 11:30: How To Stop Sabotaging Your Own Self Care with Julie Demick <em class="event-location">(Ganesh Talk Tent)</em></li>
             </ul>
@@ -658,7 +632,7 @@
                 <li><span class="event-color-block amber-yellow"></span>11:00 - 11:45: Pilates Self Massage - Nicola Fulin <em class="event-location">(Fitness Studio 2)</em></li>
                 <li><span class="event-color-block olive-green"></span>11:00 - 11:40: The Year That Changed Everything - Lucy Hardy <em class="event-location">(Darwin's Den)</em></li>
                 <li><span class="event-color-block sage-green"></span>11:30 - 12:30: Hatha Yoga with Sue Davies <em class="event-location">(Om Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>11:30 - 12:30: Aerial Silks Kids <em class="event-location">(Soul Space)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>11:30 - 12:30: Aerial Silks Kids <em class="event-location">(Soul Space)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block deep-plum"></span>12:00 - 12:45: CouplePause: When Menopause Meets Andropause <em class="event-location">(Talk Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>12:00 - 13:00: Joyful Harmony Singing - Luna & Virgil <em class="event-location">(Experience Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>12:00 - 13:30: Conscious Self: Journey Through Touch & Presence <em class="event-location">(Xanadu - Adult Only)</em></li>
@@ -668,7 +642,7 @@
                 <li><span class="event-color-block olive-green"></span>12:00 - 12:40: Stunt Workshop - Screen Alliance Wales <em class="event-location">(Darwin's Den)</em></li>
                 <li><span class="event-color-block blush-pink"></span>12:00 - 13:00: Family Constellations <em class="event-location">(Feel Good Tent)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>12:00 - 12:45: Kids Cheer, Dance and Gymnastics with Georgia, Charlie and Jordan <em class="event-location">(Fitness Studio 1)</em></li>
-                <li><span class="event-color-block sage-green"></span>12:15 - 13:30: Somatic Movement and Breathwork Journey - Anna Gough <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>12:15 - 13:30: Somatic Movement and Breathwork Journey - Anna Gough <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block sage-green"></span>12:30 - 14:00: Heart Opening Vinyasa Flow <em class="event-location">(Shakti Yoga Tent)</em></li>
             </ul>
         </div>
@@ -685,7 +659,7 @@
                 <li><span class="event-color-block sage-green"></span>13:00 - 13:45: Ditch the Diets - Zara Hiridjee <em class="event-location">(Ganesh Talk Tent)</em></li>
                 <li><span class="event-color-block olive-green"></span>13:00 - 14:00: Transformation Station - Special Effects <em class="event-location">(Darwin's Den Hideout)</em></li>
                 <li><span class="event-color-block olive-green"></span>13:00 - 14:00: Breaking Boundaries: Raising an Ironwoman <em class="event-location">(Darwin's Den)</em></li>
-                <li><span class="event-color-block sage-green"></span>13:00 - 14:00: Aerial Silks Adults <em class="event-location">(Soul Space)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>13:00 - 14:00: Aerial Silks Adults <em class="event-location">(Soul Space)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block amber-yellow"></span>13:30 - 14:30: Nordic Walking <em class="event-location">(Beside Fitness Studio 2)</em></li>
                 <li><span class="event-color-block sage-green"></span>13:30 - 15:00: Yoga for Women - Caia Cappasso <em class="event-location">(Om Yoga Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>13:30 - 15:00: Big Soul Breathe <em class="event-location">(Feel Good Tent)</em></li>
@@ -693,16 +667,16 @@
                 <li><span class="event-color-block blush-pink"></span>14:00 - 15:30: Safe & Consensual Intimacy <em class="event-location">(Xanadu - Adult Only)</em></li>
                 <li><span class="event-color-block terracotta"></span>14:00 - 14:45: Layers of Love - Kerry Hemms <em class="event-location">(Chef's Kitchen Stage)</em></li>
                 <li><span class="event-color-block olive-green"></span>14:00 - 15:00: Sensory Walk & Hapa Zone Scavenger Hunt <em class="event-location">(Buzzard Bushcraft)</em></li>
-                <li><span class="event-color-block lavender"></span>14:00 - 17:00: Spoon Carving with Lee John Phillips <em class="event-location">(Arts and Craft)</em><span class="event-note"> £10</span></li>
+                <li><span class="event-color-block lavender"></span>14:00 - 17:00: Spoon Carving with Lee John Phillips <em class="event-location">(Arts and Craft)</em> <span class="event-note">£10</span></li>
                 <li><span class="event-color-block lavender"></span>14:00 - 17:00: Drop-In Art for Young Artists - Daisy Hâf <em class="event-location">(Kids Art Tent)</em></li>
-                <li><span class="event-color-block lavender"></span>14:00 - 17:00: Intaglio Printing - Diana R Brook <em class="event-location">(Arts and Craft)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block lavender"></span>14:00 - 17:00: Intaglio Printing - Diana R Brook <em class="event-location">(Arts and Craft)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block olive-green"></span>14:00 - 14:45: Finding Purpose Through Adversity <em class="event-location">(Darwin's Den)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>14:00 - 14:45: Broadway Boogie - Nicola Fulin <em class="event-location">(Fitness Studio 1)</em></li>
                 <li><span class="event-color-block olive-green"></span>14:00 - 15:00: Axe Throwing - Drop In <em class="event-location">(Tangled Woods)</em></li>
                 <li><span class="event-color-block sage-green"></span>14:00 - 14:45: Compassionate Boundaries - Jess Baker <em class="event-location">(Ganesh Talk Tent)</em></li>
                 <li><span class="event-color-block olive-green"></span>14:00 - 15:00: Rebel Patch <em class="event-location">(Darwin's Den)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>14:15 - 15:00: Stressbox Breath and Believe <em class="event-location">(Fitness Studio 2)</em></li>
-                <li><span class="event-color-block sage-green"></span>14:15 - 15:30: Mechanism of Manifesting <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>14:15 - 15:30: Mechanism of Manifesting <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block aqua-blue"></span>14:30 - 15:30: Water Safety Workshop - Wild Swim Wales <em class="event-location">(On The Water)</em></li>
                 <li><span class="event-color-block sage-green"></span>14:30 - 15:30: Indian Classical Dance - Somita Bosak <em class="event-location">(Shiva Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>14:30 - 15:30: Unwind Your Lower Back with Movement - Jambo Dragon <em class="event-location">(Shakti Yoga Tent)</em></li>
@@ -734,7 +708,7 @@
                 <li><span class="event-color-block amber-yellow"></span>16:00 - 16:45: Build Strength Through Mindful Movement <em class="event-location">(Fitness Studio 2)</em></li>
                 <li><span class="event-color-block sage-green"></span>16:00 - 16:45: Gut Conversations - Connecting Mind, Gut & Inner Self <em class="event-location">(Ganesh Talk Tent)</em></li>
                 <li><span class="event-color-block aqua-blue"></span>16:15 - 18:00: Wild Swimming & Cold Water Immersion <em class="event-location">(On The Water)</em></li>
-                <li><span class="event-color-block sage-green"></span>16:15 - 17:30: Cacao and Sound Healing Journey: Find Stillness Within <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>16:15 - 17:30: Cacao and Sound Healing Journey: Find Stillness Within <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block blush-pink"></span>16:30 - 17:30: Welcome to Reiki - Group Healing Experience <em class="event-location">(Experience Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>16:30 - 17:30: Inhale Warrior, Exhale Worries - Eloise Lambert <em class="event-location">(Feel Good Tent)</em></li>
                 <li><span class="event-color-block terracotta"></span>17:00 - 17:45: Free from Freedom - Ellen Picton <em class="event-location">(Chef's Kitchen Stage)</em></li>
@@ -746,12 +720,12 @@
                 <li><span class="event-color-block sage-green"></span>17:30 - 18:30: Movement Through Chakras - Julia Phillips <em class="event-location">(Shiva Yoga Tent)</em></li>
                 <li><span class="event-color-block deep-plum"></span>18:00 - 18:30: The Soul Tourist - Comedy with Dom Joly <em class="event-location">(Talk Tent)</em></li>
                 <li><span class="event-color-block terracotta"></span>18:00 - 18:45: Wine Tasting <em class="event-location">(Chef's Kitchen Stage)</em></li>
-                <li><span class="event-color-block sage-green"></span>18:00 - 20:00: Deep Inner Dance with Ceremonial Cacao - Luisa Bradshaw-White <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>18:00 - 20:00: Deep Inner Dance with Ceremonial Cacao - Luisa Bradshaw-White <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block amber-yellow"></span>18:00 - 18:30: Sassy Express Stretch - Suzie Hopkins <em class="event-location">(Fitness Studio 2)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>18:00 - 18:45: Turnd'Up with Gem <em class="event-location">(Fitness Studio 1)</em></li>
                 <li><span class="event-color-block blush-pink"></span>18:00 - 19:00: How to Really Go with the Flow - Workshop <em class="event-location">(Experience Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>18:00 - 19:00: Rhythm and Drum Session <em class="event-location">(Feel Good Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>18:30 - 19:30: Cacao and Sound Healing Ceremony <em class="event-location">(Jiva Tent)</em><span class="event-note"> £ (Fully booked)</span></li>
+                <li><span class="event-color-block sage-green"></span>18:30 - 19:30: Cacao and Sound Healing Ceremony <em class="event-location">(Jiva Tent)</em> <span class="event-note">£ (Fully booked)</span></li>
                 <li><span class="event-color-block terracotta"></span>19:00 - 19:45: A Taste of Gin <em class="event-location">(Chef's Kitchen Stage)</em></li>
                 <li><span class="event-color-block sage-green"></span>19:00 - 20:00: Restorative Yoga - Alice Faulkner <em class="event-location">(Shiva Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>19:30 - 21:00: Shivani Mair - Kirtan <em class="event-location">(Shakti Yoga Tent)</em></li>
@@ -773,13 +747,13 @@
     <!-- MONDAY -->
     <div class="day-section">
         <h2>MONDAY - 26TH MAY</h2>
-         <h3>Early Morning</h3>
+        <h3>Early Morning</h3>
         <div class="day-events">
             <ul>
                 <li><span class="event-color-block aqua-blue"></span>05:00 - 06:00: Sunrise Swim/Dip/Paddle <em class="event-location">(On The Water)</em></li>
                 <li><span class="event-color-block aqua-blue"></span>05:45 - 07:30: Wild Swimming & Cold Water Immersion <em class="event-location">(On The Water)</em></li>
                 <li><span class="event-color-block sage-green"></span>06:30 - 07:30: Twisted and Balanced - Simon Halliday <em class="event-location">(Om Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>07:00 - 08:15: Karla Santos - Flow & Glow: Sustainable Wellness Practices <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>07:00 - 08:15: Karla Santos - Flow & Glow: Sustainable Wellness Practices <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block sage-green"></span>07:00 - 08:00: Yin Yoga with Rhian <em class="event-location">(Shiva Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>07:00 - 08:00: Wake Up Flow <em class="event-location">(Shakti Yoga Tent)</em></li>
                 <li><span class="event-color-block aqua-blue"></span>07:15 - 08:15: Wild Swimming & Cold Water Immersion and Wellbeing - Cosy Chat Q&A <em class="event-location">(On The Water)</em></li>
@@ -787,7 +761,7 @@
                 <li><span class="event-color-block amber-yellow"></span>08:00 - 08:45: Sun Dance - Morning Dance Party <em class="event-location">(Fitness Tent 1)</em></li>
                 <li><span class="event-color-block sage-green"></span>08:30 - 09:30: Men's Yoga <em class="event-location">(Shiva Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>08:30 - 10:00: The Sound Experience - A Yoga Junkie Signature Immersion <em class="event-location">(Shakti Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>08:45 - 10:00: Charlotte Lewis - Your Voice is More Powerful Than You Think... <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>08:45 - 10:00: Charlotte Lewis - Your Voice is More Powerful Than You Think... <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
             </ul>
         </div>
         <h3>Morning Activities</h3>
@@ -805,17 +779,17 @@
                 <li><span class="event-color-block blush-pink"></span>10:00 - 11:30: Sacred Sexuality Q&A <em class="event-location">(Xanadu - Adult Only)</em></li>
                 <li><span class="event-color-block terracotta"></span>10:00 - 10:45: One Wok Wonder - Kwoklyn Wan <em class="event-location">(Chef's Kitchen Stage)</em></li>
                 <li><span class="event-color-block olive-green"></span>10:00 - 12:00: Sensory Walk & Hapa Zone Scavenger Hunt <em class="event-location">(Buzzard Bushcraft)</em></li>
-                <li><span class="event-color-block olive-green"></span>10:00 - 12:00: Spoon Carving (Adults 16+) - Buzzard Bushcraft Chris <em class="event-location">(Buzzard Bushcraft)</em><span class="event-note"> £10</span></li>
+                <li><span class="event-color-block olive-green"></span>10:00 - 12:00: Spoon Carving (Adults 16+) - Buzzard Bushcraft Chris <em class="event-location">(Buzzard Bushcraft)</em> <span class="event-note">£10</span></li>
                 <li><span class="event-color-block lavender"></span>10:00 - 12:30: Drop-In Arts & Crafts Table - Adults Only <em class="event-location">(Arts and Craft)</em></li>
                 <li><span class="event-color-block lavender"></span>10:00 - 11:00: Gemma Longworth - Group Art Lessons <em class="event-location">(Arts and Craft)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>10:00 - 10:45: Function Strength - Hayley <em class="event-location">(Fitness Studio 1)</em></li>
                 <li><span class="event-color-block olive-green"></span>10:00 - 12:00: Axe Throwing - Drop In <em class="event-location">(Tangled Woods)</em></li>
-                <li><span class="event-color-block sage-green"></span>10:00 - 11:00: Aerial Hoop Kids <em class="event-location">(Soul Space)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>10:00 - 11:00: Aerial Hoop Kids <em class="event-location">(Soul Space)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block sage-green"></span>10:00 - 11:00: Tai Chi with Liz Thomas <em class="event-location">(Shiva Yoga Tent)</em></li>
                 <li><span class="event-color-block olive-green"></span>10:00 - 10:40: See It, Feel It, Draw It: Visual Feedback for Change - Pool Tir Mor <em class="event-location">(Darwin's Den)</em></li>
                 <li><span class="event-color-block blush-pink"></span>10:30 - 11:30: How to Let Go & Feel Confident <em class="event-location">(Feel Good Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>10:30 - 11:30: Laughter Yoga - Cat Googe <em class="event-location">(Jiva Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>10:30 - 11:45: The Skin Whisperer - The Elemental Beauty Ritual <em class="event-location">(Shakti Yoga Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>10:30 - 11:45: The Skin Whisperer - The Elemental Beauty Ritual <em class="event-location">(Shakti Yoga Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block deep-plum"></span>10:30 - 11:30: Mindful Mobility Flow <em class="event-location">(Talk Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>10:45 - 11:30: Change is the One Constant in Life - Julie Demick <em class="event-location">(Ganesh Talk Tent)</em></li>
            </ul>
@@ -825,7 +799,7 @@
            <ul>
                 <li><span class="event-color-block olive-green"></span>11:00 - 11:45: From Burnout to Purpose -Building A Fashion Brand That Cares <em class="event-location">(Darwin's Den)</em></li>
                 <li><span class="event-color-block terracotta"></span>11:00 - 11:45: The Benefits of Cacao - Enchanted Earth <em class="event-location">(Chef's Kitchen Stage)</em></li>
-                <li><span class="event-color-block sage-green"></span>11:00 - 11:30: Aerial Hoop Adults <em class="event-location">(Soul Space)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>11:00 - 11:30: Aerial Hoop Adults <em class="event-location">(Soul Space)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block amber-yellow"></span>11:00 - 11:45: Latin Line Dance - Kim <em class="event-location">(Fitness Studio 1)</em></li>
                 <li><span class="event-color-block sage-green"></span>11:00 - 12:00: Yoga for Women - Caia Cappasso <em class="event-location">(Om Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>11:30 - 12:30: Indian Classical Dance - Somita Bosak <em class="event-location">(Shiva Yoga Tent)</em></li>
@@ -836,7 +810,7 @@
                 <li><span class="event-color-block blush-pink"></span>12:00 - 13:30: The Pleasure of Saying No <em class="event-location">(Xanadu - Adult Only)</em></li>
                 <li><span class="event-color-block sage-green"></span>12:00 - 13:00: Deep Tissue Release - Sam Feltham <em class="event-location">(Shakti Yoga Tent)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>12:00 - 12:45: Ravekick <em class="event-location">(Fitness Studio 1)</em></li>
-                <li><span class="event-color-block sage-green"></span>12:15 - 13:45: Breathwork & Cacao Journey <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>12:15 - 13:45: Breathwork & Cacao Journey <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block amber-yellow"></span>12:30 - 13:30: Fitness Challenge - Drop in <em class="event-location">(Chris Cross Ski Stand)</em></li>
                 <li><span class="event-color-block sage-green"></span>12:30 - 13:30: Happy Heart Flow - Fizz Yasin <em class="event-location">(Om Yoga Tent)</em></li>
             </ul>
@@ -860,7 +834,7 @@
                 <li><span class="event-color-block olive-green"></span>14:00 - 15:00: Sensory Walk & Hapa Zone Scavenger Hunt <em class="event-location">(Buzzard Bushcraft)</em></li>
                 <li><span class="event-color-block amber-yellow"></span>14:00 - 14:45: Burlywhirls Dance Theatre - Gem <em class="event-location">(Fitness Studio 1)</em></li>
                 <li><span class="event-color-block sage-green"></span>14:00 - 15:30: Movement Through Chakras - Julia Phillips <em class="event-location">(Om Yoga Tent)</em></li>
-                <li><span class="event-color-block sage-green"></span>14:15 - 15:30: Return to Awareness: Cacao & Sound Healing Experience <em class="event-location">(Jiva Tent)</em><span class="event-note"> £</span></li>
+                <li><span class="event-color-block sage-green"></span>14:15 - 15:30: Return to Awareness: Cacao & Sound Healing Experience <em class="event-location">(Jiva Tent)</em> <span class="event-note">£</span></li>
                 <li><span class="event-color-block sage-green"></span>14:30 - 15:30: Hatha Yoga - Sue Davies <em class="event-location">(Shiva Yoga Tent)</em></li>
                 <li><span class="event-color-block sage-green"></span>14:30 - 15:30: EFT Tapping into Possibility <em class="event-location">(Ganesh Talk Tent)</em></li>
                 <li><span class="event-color-block blush-pink"></span>14:30 - 15:30: Closing Thanks <em class="event-location">(Feel Good Tent)</em></li>
